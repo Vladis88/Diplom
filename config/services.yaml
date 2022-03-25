@@ -1,0 +1,99 @@
+parameters:
+    images: '%kernel.project_dir%/public/images'
+
+services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    _instanceof:
+        App\Service\Delivery\DeliveryInterface:
+            tags:
+                - !php/const App\Service\Delivery\DeliveryInterface::DELIVERY_TAG
+
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    App\Controller\:
+        autowire: true
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    Goutte\Client:
+        autowire: true
+        public: true
+
+    Clue\React\Buzz\Browser:
+        autowire: true
+
+    React\EventLoop\LoopInterface:
+        autowire: true
+
+    GuzzleHttp\Client:
+        autowire: true
+
+    App\Command\ParseCar:
+        autowire: true
+        public: true
+
+    Pusher\Pusher:
+        public: true
+        autowire: true
+        tags: ['lopi_pusher.pusher']
+        arguments:
+            - '%env(PUSHER_KEY)%'
+            - '%env(PUSHER_SECRET)%'
+            - '%env(PUSHER_APP_ID)%'
+            - { cluster: '%env(PUSHER_CLUSTER)%', useTLS: true }
+
+    Pusher\PushNotifications\PushNotifications:
+        public: true
+        autowire: true
+        tags: ['pusher_push']
+        arguments:
+            - { instanceId: '%env(PUSHER_BEAMS_INSTANCE_ID)%', secretKey: '%env(PUSHER_BEAMS_KEY)%'}
+
+    App\Service\Delivery\MailNotificationService:
+        arguments: ['@swiftmailer.mailer']
+
+
+    path_resolver:
+        class: App\Service\UploaderService\PathResolver\PathResolver
+        arguments:
+            $projectDir: '%kernel.project_dir%/public'
+
+    car_path_resolver:
+        class: App\Service\UploaderService\PathResolver\CarPathResolver
+        arguments:
+            $projectDir: '%kernel.project_dir%/public'
+
+    uploader_image_helper:
+        class: App\Service\UploaderService\UploaderImageHelper
+
+    uploader_service:
+        class: App\Service\UploaderService\UploaderService
+        arguments:
+            $pathResolver: '@path_resolver'
+            $imageHelper: '@uploader_image_helper'
+
+    car_uploader_service:
+        class: App\Service\UploaderService\CarUploaderService
+        arguments:
+            $pathResolver: '@car_path_resolver'
+            $imageHelper: '@uploader_image_helper'
+
+    App\Service\CarPostService:
+        calls:
+            - method: setUploaderServices
+              arguments:
+                - '@uploader_service'
+                - '@car_uploader_service'
+
+    App\Service\Delivery\TelegramNotificationService:
+        arguments: ['%env(TELEGRAM_BOT_KEY)%', '%env(TELEGRAM_CHAT_ID)%']
+
+    App\MessageHandler\CarGalleryMessageHandler:
+        calls:
+            - method: setDependencies
+              arguments:
+                  - '@car_uploader_service'

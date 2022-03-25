@@ -1,0 +1,507 @@
+@charset "UTF-8";
+body {
+    font-family: "Exo 2", sans-serif;
+    font-size: 16px;
+}
+
+a {
+    color: #f18d08;
+}
+
+.wrapper {
+    position: relative;
+}
+
+.ruta-header {
+    background: white;
+    position: fixed;
+    width: 100%;
+    transition: all 0.5s ease 0s !important;
+    /*background: white;*/
+    box-shadow: 0 20px 40px rgba(0,0,0,0.09);
+    z-index: 100;
+    -webkit-transition: opacity .5s ease-in-out,-webkit-transform .5s!important;
+    -webkit-transform: translate3d(0,-110%,0)!important;
+    transform: translate3d(0,-110%,0)!important;
+    /*transition: opacity .5s ease-in-out,-webkit-transform .5s!important;*/
+    transition: transform .5s,opacity .5s ease-in-out!important;
+    transition: transform .5s,opacity .5s ease-in-out,-webkit-transform .5s!important;
+    opacity: 0;
+}
+
+.ruta-header.transparent-header {
+    background: #ffffff00;
+}
+.ruta-header.transparent-header .sf-menu li > a {
+    color: white;
+    background: #ffffff00;
+}
+
+.ruta-header.active.activeTop .sf-menu li > a {
+    color: white !important;
+    background: #ffffff00;
+}
+
+.mega-sub li a {
+    color: #333 !important;
+}
+
+.mega-sub li a:hover {
+    color: #f18d08 !important;
+}
+.custom-sub-menu li a:hover {
+    color: #f18d08 !important;
+}
+
+.custom-sub-menu li a {
+    color: #333 !important;
+}
+
+.ruta-header.active {
+    transition: 0.5s;
+    opacity: 1;
+    -webkit-transform: translateZ(0)!important;
+    transform: translateZ(0)!important;
+}
+
+.ruta-header.active.activeTop {
+    transition: 0.5s !important;
+    background-color: rgba(255, 255, 255, 0) !important;
+}
+.ruta-header.active.activeAfter {
+    transition: 0.5s !important;
+    background-color: white;
+}
+
+.ruta-header.active.activeAfter .sf-menu li > a {
+    color: #333 !important;
+}
+
+.ruta-header.active.activeTop .sf-menu li > a {
+    color: white !important;
+}
+
+.ruta-header.active.activeTop .mega-sub li a {
+    color: #333 !important;
+}
+
+.ruta-header.active.activeTop .mega-sub li a:hover {
+    color: #f18d08 !important;
+}
+.ruta-header.active.activeTop .custom-sub-menu li a:hover {
+    color: #f18d08 !important;
+}
+
+.ruta-header.active.activeTop .custom-sub-menu li a {
+    color: #333 !important;
+}
+
+    /*test*/
+.ruta-content {
+    width: 100%;
+    background: #f1f1f1;
+    height: 2000px;
+}
+
+.header-wrap {
+    position: relative;
+}
+
+.logo-wrap {
+    float: left;
+}
+
+.logo-wrap img {
+    width: 120px;
+    margin-top: 15px;
+}
+
+.top-mnu {
+    float: right;
+}
+
+.mega-sub {
+    margin-bottom: 30px;
+}
+
+ul.mega-sub li a {
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+.mega-sub i {
+    margin-right: 5px;
+}
+
+.sf-menu {
+    position: static;
+    float: none;
+}
+
+.sf-menu li {
+    border-left: none !important;
+    background-color: #fff0 !important;
+}
+
+
+/*.sf-menu li:hover {*/
+    /*background: #ffffff00 !important;*/
+    /*color: white;*/
+/*}*/
+
+.sf-menu li:hover a {
+    background: #ffffff00 !important;
+}
+
+.sf-menu li a {
+    background: #ffffff00;
+    border: none;
+}
+
+.sf-menu > li:last-child {
+    border-right: #ffffff00 !important;
+}
+
+.sf-menu li a:hover {
+    color: #f0721ded;
+}
+
+@media screen and (max-width: 992px) {
+    .left-menu .mega-sub .sf-mega.dn {
+        display: block !important;
+    }
+    .desktop-menu {
+        display: none !important;
+    }
+    ul.custom-sub-menu {
+        padding: 15px 0 0 5px !important;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .left-menu .mega-sub li ul {
+        display: none !important;
+    }
+}
+
+.sf-menu .sf-mega {
+    background-color: #fff;
+    padding: 25px 0;
+    z-index: 100;
+}
+
+@media screen and (min-width: 1200px) {
+    .sf-menu .sf-mega.events {
+        max-width: 720px;
+        position: absolute;
+        left: 15%;
+    }
+    .sf-menu .sf-mega.row-blocks {
+        max-width: 100%;
+    }
+}
+
+@media screen and (min-width: 2000px) {
+    .sf-menu .sf-mega.events {
+        left: 43% !important;
+    }
+}
+
+@media screen and (min-width: 1800px) {
+    .sf-menu .sf-mega.events {
+        left: 43% !important;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .sf-menu .sf-mega.events {
+        left: 32% !important;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    .sf-menu .sf-mega.events {
+        left: 25%;
+    }
+}
+
+
+.col-md-2-five {
+    width: 20%;
+    float: left;
+}
+
+ul.custom-sub-menu {
+    display: none !important;
+}
+
+ul.custom-sub-menu.displayMenu {
+    display: block !important;
+}
+
+ul.custom-sub-menu li {
+    width: 49%;
+    float: left;
+}
+ul.custom-sub-menu li a {
+    font-size: 1.30rem;
+    border-bottom: none !important;
+    height: 60px;
+}
+
+
+
+.sf-menu .sf-mega ul {
+    display: block;
+    float: none;
+    position: relative;
+    box-shadow: none;
+}
+
+.sf-menu li {
+    white-space: normal;
+    position: static;
+}
+
+.sf-menu > li > ul {
+    width: 220px;
+    left: auto;
+}
+
+.sf-menu > li > ul li .sf-with-ul::after {
+    font-family: "FontAwesome";
+    content: '';
+    right: 1em;
+    position: absolute;
+}
+
+.responsive-img {
+    width: 100%;
+}
+
+.toggle-mnu {
+    display: block;
+    width: 28px;
+    height: 28px;
+    margin-top: 20px !important;
+}
+
+.toggle-mnu span:after, .toggle-mnu span:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 9px;
+}
+
+.toggle-mnu span:after {
+    top: 18px;
+}
+
+.toggle-mnu span {
+    position: relative;
+    display: block;
+}
+
+.toggle-mnu span, .toggle-mnu span:after, .toggle-mnu span:before {
+    width: 100%;
+    height: 2px;
+    background-color: #666;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 2px;
+}
+
+.toggle-mnu.on span {
+    background-color: transparent;
+}
+
+.toggle-mnu.on span:before {
+    -webkit-transform: rotate(45deg) translate(-1px, 0px);
+    -ms-transform: rotate(45deg) translate(-1px, 0px);
+    transform: rotate(45deg) translate(-1px, 0px);
+}
+
+.toggle-mnu.on span:after {
+    -webkit-transform: rotate(-45deg) translate(6px, -7px);
+    -ms-transform: rotate(-45deg) translate(6px, -7px);
+    transform: rotate(-45deg) translate(6px, -7px);
+}
+
+.toggle-mnu {
+    float: right;
+    margin-top: 30px;
+    position: relative;
+    z-index: 2;
+}
+
+.sf-menu a {
+    color: #333;
+    background-color: #fff;
+}
+
+.sf-menu > li {
+    background-color: #fff;
+    border-left: #ddd 1px solid;
+}
+
+.sf-menu > li:last-child {
+    border-right: #ddd 1px solid;
+}
+
+.sf-menu > li > a {
+    padding: 20px 25px;
+    border-bottom: 5px solid transparent;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    color: #333;
+}
+
+.sf-menu > li > a + * {
+    border-top: #f18d08 solid 5px;
+}
+
+.sf-menu > li > a + * a {
+    -webkit-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+    border-bottom: #ddd 1px solid;
+}
+
+.sf-menu > li > a + * a:hover {
+    color: #f18d08;
+}
+
+.sf-menu > li:hover > a {
+    background-color: #fff;
+}
+
+.sf-menu .container-fluid {
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+}
+
+.sf-menu .row {
+    margin-right: -15px !important;
+    margin-left: -15px !important;
+}
+
+.sf-menu .col-lg-1, .sf-menu .col-lg-10, .sf-menu .col-lg-11, .sf-menu .col-lg-12, .sf-menu .col-lg-2, .sf-menu .col-lg-3, .sf-menu .col-lg-4, .sf-menu .col-lg-5, .sf-menu .col-lg-6, .sf-menu .col-lg-7, .sf-menu .col-lg-8, .sf-menu .col-lg-9, .sf-menu .col-md-1, .sf-menu .col-md-10, .sf-menu .col-md-11, .sf-menu .col-md-12, .sf-menu .col-md-2, .sf-menu .col-md-3, .sf-menu .col-md-4, .sf-menu .col-md-5, .sf-menu .col-md-6, .sf-menu .col-md-7, .sf-menu .col-md-8, .sf-menu .col-md-9, .sf-menu .col-sm-1, .sf-menu .col-sm-10, .sf-menu .col-sm-11, .sf-menu .col-sm-12, .sf-menu .col-sm-2, .sf-menu .col-sm-3, .sf-menu .col-sm-4, .sf-menu .col-sm-5, .sf-menu .col-sm-6, .sf-menu .col-sm-7, .sf-menu .col-sm-8, .sf-menu .col-sm-9, .sf-menu .col-xs-1, .sf-menu .col-xs-10, .sf-menu .col-xs-11, .sf-menu .col-xs-12, .sf-menu .col-xs-2, .sf-menu .col-xs-3, .sf-menu .col-xs-4, .sf-menu .col-xs-5, .sf-menu .col-xs-6, .sf-menu .col-xs-7, .sf-menu .col-xs-8, .sf-menu .col-xs-9 {
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+}
+
+.menu-new-item {
+    margin-bottom: 10px;
+    padding: 12px;
+}
+
+.menu-new-item img {
+    cursor: pointer;
+}
+
+.menu-new-item h3 {
+    margin: 15px 0;
+}
+
+.menu-new-item:hover h3 a {
+    color: #f18d08 !important;
+}
+
+.menu-new-item a {
+    padding: 0;
+    font-size: 1.9rem;
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.83);
+}
+
+.menu-new-item p {
+    font-size: 14px;
+    color: #666;
+}
+
+.sf-menu > li > a + * .menu-new-item a {
+    border-bottom: none;
+}
+
+.sf-menu > li > a + * .menu-new-item a:hover {
+    color: #333;
+}
+
+a.activeMobileItem {
+    transition: 0.3s;
+    border-left: 3px solid #f18d08;
+}
+
+@media screen and (max-width: 1200px) {
+    .sf-menu li a {
+        font-size: 1.2rem;
+    }
+}
+
+/*==========  Desktop First Method  ==========*/
+/* Large Devices, Wide Screens */
+/* Medium Devices, Desktops */
+@media only screen and (max-width: 992px) {
+    /**/
+    .top-mnu ul {
+        display: none;
+    }
+    .header-wrap {
+        padding-bottom: 10px;
+    }
+    .col-md-2-five {
+        width: 100%;
+    }
+    .left-menu {
+        padding: 0;
+    }
+}
+
+@media screen and (max-width: 992px) and (min-width: 450px) {
+    .custom-sub-menu li a {
+        white-space: normal;
+        height: 60px !important;
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .custom-sub-menu li {
+        float: none !important;
+        width: 100% !important;
+        text-align: left;
+    }
+    .custom-sub-menu li a {
+        font-size: 1.1rem !important;
+    }
+    .left-menu li a {
+        font-size: 1.3rem !important;
+    }
+}
+
+/* Small Devices, Tablets */
+/* Extra Small Devices, Phones */
+/* Custom, iPhone Retina */
+/*==========  Mobile First Method  ==========*/
+/* Custom, iPhone Retina */
+/* Extra Small Devices, Phones */
+/* Small Devices, Tablets */
+/* Medium Devices, Desktops */
+@media only screen and (min-width: 992px) {
+    .toggle-mnu {
+        display: none;
+    }
+    .toggle-mnu, #mobile-menu, html.mm-blocking #mm-blocker {
+        display: none;
+    }
+    html.mm-opening .mm-slideout {
+        -webkit-transform: translate(0px, 0px);
+        -ms-transform: translate(0px, 0px);
+        transform: translate(0px, 0px);
+    }
+}
+
+/* Large Devices, Wide Screens */

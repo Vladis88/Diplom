@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>{% block title %}Экскурсионная компания в Сочи - туристическое агенство Рута{% endblock %}</title>
+    {% block meta_desc %}
+        <meta name="description" content="Более 40 вариантов экскурсий в Сочи и Абхазии от ООО РУТА. Профессиональные гиды проведут вас по незабываемым авторским маршрутам. Компания имеет собственный автомобильный парк."/>
+    {% endblock %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/superfish/1.7.7/css/superfish.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/superfish/1.7.7/css/megafish.min.css">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/jQuery.mmenu/5.5.3/core/css/jquery.mmenu.all.css">
+        <link href="http://allfont.net/allfont.css?fonts=bookman-old-style" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/common.css') }}">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+</head>
+<body>
+{% block body %}
+    <div class="wrapper">
+
+        {% include 'components/common/header.html.twig' %}
+
+        {% block content %}
+
+        {% endblock %}
+
+        {% include 'components/common/footer.html.twig' %}
+
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('libs/vue@2.6.0') }}"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/superfish/1.7.7/js/superfish.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.mmenu/5.5.3/core/js/jquery.mmenu.min.all.js"></script>
+    <script src="{{ asset('js/common.js') }}"></script>
+    <script>
+
+        // let uls = document.querySelectorAll('.custom-sub-menu');
+        // uls.forEach(ul => {
+        //     let li = document.getElementById(`li-${ul.id}`);
+        //     let content = li.querySelector('.row');
+        //     content.appendChild(ul);
+        //     console.log(content);
+        // });
+
+        // // Mobile menu for events behavior
+        function selectMobileSubMenu(id, event) {
+
+        }
+
+        new Vue({
+            el: '#ruta-header',
+            delimiters: ['${', '}'],
+            data() {
+                return {
+                    activeSubMenu: 1,
+                    countCart: ""
+                }
+            },
+            mounted() {
+            },
+            methods: {
+                selectSubMenu(id) {
+                    let subMenu = this.$el.querySelector(`#sub-${id}`);
+                    this.deleteOldSubMenu();
+                    subMenu.classList.add('displayMenu');
+                    this.activeSubMenu = id;
+                },
+                deleteOldSubMenu() {
+                    let oldSubMenu = this.$el.querySelector(`#sub-${this.activeSubMenu}`);
+                    oldSubMenu.classList.remove('displayMenu');
+                },
+                cartCount() {
+                    const cart = localStorage.getItem('cart');
+
+                    if (cart) {
+                        return JSON.parse(cart).length;
+                    }
+
+                    return "";
+                },
+                location(link) {
+                    location.href = link;
+                }
+            }
+        })
+    </script>
+{% endblock %}
+</body>
+</html>

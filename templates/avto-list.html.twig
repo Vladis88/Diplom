@@ -1,0 +1,241 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/catalog.css') }}">
+{% endblock %}
+
+{% block title %} Экскурсии в Сочи - Обзорные экскурсии и дешевые туры по городу {% endblock %}
+{% block meta_desc %} <meta name="description" content="Интересные экскурсии по Сочи и Абхазии от компании Рута. Профессиональные гиды проведут вас по незабываемым авторским маршрутам"/> {% endblock %}
+
+{% block content %}
+    <div id="catalog-vue">
+        <div class="container about-container">
+            <div class="row catalog-about">
+                <div class="col-lg-4">
+                    <img style="margin-top: 20%;" src="{{ asset('img/logo-black.png') }}" alt="">
+                </div>
+                <div class="col-lg-8 catalog-about-col">
+                    <h1 class="catalog-about-caption">Каталог автомобилей</h1>
+                    <p class="catalog-about-content">Отдыхая в Сочи, вы испытаете яркие, головокружительные эмоции, полюбуетесь незабываемыми видами и сделаете невероятное количество забавных или захватывающих
+                        дух фотографий, при взгляде на которые оживают воспоминания о посещении этого уникального места.
+                        Мы подготовили для вас краткий гид по местам, посетив которые,
+                        вы полюбите наш город также, как любим его мы. С ценами на лучшие экскурсии по Сочи и
+                        окрестностям вы можете ознакомиться на нашем сайте.</p>
+                </div>
+            </div>
+        </div>
+        <div class="catalog-bg-block">
+            <div class="container">
+                <div class="row catalog-list">
+                    <div class="catalog-filter">
+                        <ul>
+                            <li><a style="display: none" :class="{ active: allIsActive }" @click="loadExcursions">Все</a></li>
+{#                            {% for category in categories %}#}
+{#                                <li><a class="{% if currentCategory is defined %}{% if category == currentCategory %}active{% endif %}{% endif %}" @click="reloadExcursions({{ category.id }})">{{ category.getName() }}</a></li>#}
+{#                            {% endfor %}#}
+                        </ul>
+                    </div>
+                    <div style="margin-top: 100px;" class="row" v-if="!isLoaded">
+                        {% for carPost in carPosts %}
+                            <div
+                                    class="col-lg-12 excursion-item"
+                            >
+                                <div
+                                        role="img"
+                                        class="excursion-item-bg"
+                                        style="background-image: url('{% if carPost.previewImage %}{{ carPost.previewImage }}{% else %}{{ asset('img/empty_car.png') }}{% endif %}');"
+                                >
+                                    <div class="ex-item-text">
+                                        {{ carPost.description | slice(0, 130) }} ...
+                                    </div>
+                                </div>
+                                <div class="excursion-item-content">
+                                    <div style="position: relative">
+                                        <div class="excursion-item-caption">
+                                            {{ carPost.title }}
+                                        </div>
+                                        <ul>
+                                            <p>{{ carPost.carInfo.transmission.name }}.,
+                                                {{ carPost.carInfo.engine.engineCapacity }} {{ carPost.carInfo.engine.engineCapacityHint }}.,
+                                                {{ carPost.carInfo.engine.type }},
+                                                {{ carPost.carInfo.bodyType.name }},
+                                                {{ carPost.carInfo.mileage }} {{ carPost.carInfo.mileageMeasure }}
+                                            </p>
+                                            <li>Год выпуска: <strong>{{ carPost.carInfo.year }}</strong></li>
+                                            <li>Цена: <strong>{{ carPost.carInfo.price.byn }} BYN</strong></li>
+{#                                            <li>Видео: <span#}
+{#                                                        style="text-decoration: underline;max-width: 58%;overflow: hidden;position: absolute;right: 30px;"#}
+{#                                                ><a target="_blank" href="{{ excursion.videoLink }}">Смотреть</a></span>#}
+{#                                            </li>#}
+{#                                            <li>Стоимость: <span>{{ excursion.adultPrice }} ₽</span></li>#}
+                                        </ul>
+                                        <button class="ex-item-button" id="myBtn">Подробнее</button>
+                                        <a href="" class="ex-item-button">Бронировать</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+{#                    <div v-if="showLoader" class="loader-wrapper">#}
+{#                        <div class="lds-ripple">#}
+{#                            <div></div>#}
+{#                            <div></div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div style="margin-top: 100px;" class="row" v-if="isLoaded">#}
+{#                        <div#}
+{#                                class="no-excursions-block"#}
+{#                                v-if="excursions.length === 0"#}
+{#                        >#}
+{#                            Не найдено экскурсий по заданной категории#}
+{#                        </div>#}
+{#                        <div#}
+{#                                class="col-lg-12 excursion-item"#}
+{#                                v-if="excursions.length > 0"#}
+{#                                v-for="ex in excursions"#}
+{#                        >#}
+{#                            <div#}
+{#                                    class="excursion-item-bg"#}
+{#                                    :style="{ 'backgroundImage': 'url(' + imagesStorage + ex.preview + ')' }"#}
+{#                            >#}
+{#                                <div class="ex-item-text" v-html="ex.shortDescription">#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="excursion-item-content">#}
+{#                                <div style="position: relative">#}
+{#                                    <div class="excursion-item-caption">#}
+{#                                        ${ex.title}#}
+{#                                    </div>#}
+{#                                    <ul>#}
+{#                                        <li>Продолжительность: <span>${ Math.round(ex.duration / 60) } часа</span></li>#}
+{#                                        <li>Видео: <span#}
+{#                                                    style="text-decoration: underline;max-width: 58%;overflow: hidden;position: absolute;right: 30px;"#}
+{#                                            ><a target="_blank" :href="ex.videoLink">Смотреть</a></span>#}
+{#                                        </li>#}
+{#                                        <li>Стоимость: <span>${ex.adultPrice} ₽</span></li>#}
+{#                                    </ul>#}
+{#                                    #}{#									<button class="ex-item-button" id="myBtn">Подробнее</button>#}
+{#                                    <a :href="getExPath(ex.link)" class="ex-item-button">Бронировать</a>#}
+
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+                </div>
+            </div>
+        </div>
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                {#<div class="modal-content-caption">СУХУМ+КАЙМАНЫ+ПАРК</div>#}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/simple-scroll.js') }}"></script>
+    {#    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>#}
+    <script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
+{#    <script>#}
+{#        let vue = new Vue({#}
+{#            el: '#catalog-vue',#}
+{#            delimiters: ['${', '}'],#}
+{#            data() {#}
+{#                return {#}
+{#                    host: '{{ server }}',#}
+{#                    imagesStorage: '{{ server ~ event_images_directory }}',#}
+{#                    showLoader: false,#}
+{#                    isLoaded: false,#}
+{#                    excursions: [],#}
+{#                    allIsActive: true#}
+{#                }#}
+{#            },#}
+{#            mounted() {#}
+{#            },#}
+{#            methods: {#}
+{#                loadExcursions() {#}
+{#                    this.showLoader = true;#}
+{#                    this.allIsActive = true;#}
+{#                    axios.get(`${this.host}/all-excursions`)#}
+{#                        .then((res) => {#}
+{#                            this.excursions = res.data;#}
+{#                            if (this.excursions.length > 0) {#}
+{#                                console.log(this.excursions);#}
+{#                                setTimeout(() => {#}
+{#                                    this.isLoaded = true;#}
+{#                                    this.showLoader = false;#}
+{#                                }, 700)#}
+{#                            } else {#}
+{#                                this.showLoader = false;#}
+{#                                this.isLoaded = true;#}
+{#                            }#}
+{#                        })#}
+{#                },#}
+{#                reloadExcursions(id) {#}
+{#                    this.showLoader = true;#}
+{#                    this.allIsActive = false;#}
+{#                    axios.get(`${this.host}/excursions-by-category/${id}`)#}
+{#                        .then((res) => {#}
+{#                            this.excursions = res.data;#}
+{#                            if (this.excursions.length > 0) {#}
+{#                                console.log(this.excursions);#}
+{#                                setTimeout(() => {#}
+{#                                    this.isLoaded = true;#}
+{#                                    this.showLoader = false;#}
+{#                                }, 700)#}
+{#                            } else {#}
+{#                                this.showLoader = false;#}
+{#                                this.isLoaded = true;#}
+{#                            }#}
+{#                        })#}
+{#                },#}
+{#                getExPath(link) {#}
+{#                    return `${this.host}/catalogue/${link}`;#}
+{#                }#}
+{#            }#}
+{#        });#}
+{#        // Get the modal#}
+{#        var modal = document.getElementById("myModal");#}
+
+{#        // Get the button that opens the modal#}
+{#        var btns = document.querySelectorAll("#myBtn");#}
+{#        let exItemsContent = document.querySelectorAll('.excursion-item-content');#}
+
+{#        // When the user clicks on the button, open the modal#}
+{#        btns.forEach(btn => {#}
+{#            btn.addEventListener('click', () => {#}
+{#                exItemsContent.forEach(item => {#}
+{#                    item.style.zIndex = 1;#}
+{#                });#}
+{#                modal.style.display = "block";#}
+{#            })#}
+{#        });#}
+{#        // When the user clicks anywhere outside of the modal, close it#}
+{#        window.onclick = function (event) {#}
+{#            if (event.target == modal) {#}
+{#                modal.style.display = "none";#}
+{#            }#}
+{#        };#}
+
+{#        let filterItems = document.querySelectorAll('.catalog-filter ul li a');#}
+{#        let activeItem;#}
+{#        filterItems.forEach(item => {#}
+{#            item.addEventListener('click', () => {#}
+{#                if (item.classList.contains('active')) {#}
+
+{#                } else {#}
+{#                    item.classList.add('active');#}
+{#                    if (activeItem)#}
+{#                        activeItem.classList.remove('active');#}
+{#                    activeItem = item;#}
+{#                }#}
+{#            });#}
+{#        })#}
+{#    </script>#}
+{% endblock %}

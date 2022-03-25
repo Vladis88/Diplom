@@ -1,0 +1,209 @@
+<div class="ruta-header active">
+    <div class="container-fluid">
+
+        <a href="#mobile-menu" class="toggle-mnu"><span></span></a>
+
+        <div class="header-wrap clearfix" id="ruta-header">
+
+            <div class="logo-wrap">
+                <a href=""><img src="{{ asset('img/logo-black.png') }}" alt="Alt"></a>
+            </div>
+
+            <div class="top-mnu">
+
+                <ul class="sf-menu">
+                    <li>
+                        <a href="">Каталог автомобилей</a>
+                        <div class="sf-mega events">
+
+                            <div class="container-fluid">
+
+                                <div class="row">
+                                    <div class="col-md-4 left-menu">
+
+                                        <ul class="mega-sub">
+{#                                            {% for category in categories %}#}
+{#                                                <li id="li-sub-{{ loop.index }}">#}
+{#                                                    <a @mouseover="selectSubMenu({{ loop.index }})"#}
+{#                                                       data-category-id="{{ loop.index }}"#}
+{#                                                       id="left-menu-{{ loop.index }}"#}
+{#                                                       @click="location('{{ path('catalog-by-category-action', {'categorySlug': category.slug}) }}')"#}
+{#                                                    >{{ category.name }}</a>#}
+{#                                                    <ul class="custom-sub-menu displayMenu">#}
+{#                                                        {% for event in category.events %}#}
+{#                                                            {% if event.isPublish %}#}
+{#                                                                <li><a href="{{ path('excursion-action', {'excursionLink': event.link}) }}">{{ event.title | upper }}</a></li>#}
+{#                                                            {% endif %}#}
+{#                                                        {% endfor %}#}
+{#                                                    </ul>#}
+{#                                                </li>#}
+{#                                            {% endfor %}#}
+                                            {#											<li id="li-sub-2">#}
+                                            {#												<a @mouseover="selectSubMenu(2)" data-category-id="2"#}
+                                            {#												   id="left-menu-2">Красная#}
+                                            {#													поляна</a>#}
+                                            {#												<ul class="custom-sub-menu displayMenu">#}
+                                            {#													<li><a href="#">Абхазия Сочи</a></li>#}
+                                            {#													<li><a href="#">Абхазия Сочи</a></li>#}
+                                            {#													<li><a href="#">Абхазия Сочи</a></li>#}
+                                            {#													<li><a href="#">Живописной дороги к рице</a></li>#}
+                                            {#													<li><a href="#">Абхазия Сочи</a></li>#}
+                                            {#													<li><a href="#">Абхазия по нестандратному маршруту</a>#}
+                                            {#													</li>#}
+                                            {#												</ul>#}
+                                            {#											</li>#}
+                                            {#											<li id="li-sub-3">#}
+                                            {#												<a @mouseover="selectSubMenu(3)" data-category-id="3"#}
+                                            {#												   id="left-menu-3">Сочи</a>#}
+                                            {#												#}
+                                            {#												<ul class="custom-sub-menu displayMenu">#}
+                                            {#													<li><a href="#">Абхазия Сочи</a></li>#}
+                                            {#													<li><a href="#">Абхазия по нестандратному маршруту</a>#}
+                                            {#													</li>#}
+                                            {#													<li><a href="#">Абхазия Сочи</a></li>#}
+                                            {#													<li><a href="#">Абхазия Сочи</a></li>#}
+                                            {#													<li><a href="#">Абхазия по нестандратному маршруту</a>#}
+                                            {#													</li>#}
+                                            {#													<li><a href="#">Абхазия Сочи</a></li>#}
+                                            {#												</ul>#}
+                                            {#											#}
+                                            {#											</li>#}
+                                            {#											<li id="li-sub-4">#}
+                                            {#												<a @mouseover="selectSubMenu(4)" data-category-id="4"#}
+                                            {#												   id="left-menu-4">Экскурсии#}
+                                            {#													в мини-группах</a>#}
+                                            {#												#}
+                                            {#												<ul class="custom-sub-menu displayMenu">#}
+                                            {#													<li><a href="#">Абхазия Сочи</a></li>#}
+                                            {#													<li><a href="#">Абхазия по нестандратному маршруту</a>#}
+                                            {#													</li>#}
+                                            {#													<li><a href="#">Абхазия Сочи</a></li>#}
+                                            {#													<li><a href="#">Абхазия Сочи</a></li>#}
+                                            {#													<li><a href="#">Абхазия по нестандратному маршруту</a>#}
+                                            {#													</li>#}
+                                            {#													<li><a href="#">Абхазия Сочи</a></li>#}
+                                            {#												</ul>#}
+                                            {#											#}
+                                            {#											</li>#}
+                                            {#											<li id="li-sub-5">#}
+                                            {#												<a @mouseover="selectSubMenu(5)" href="#">Экскурсии из#}
+                                            {#													Адлера</a>#}
+                                            {#												#}
+                                            {#												<ul class="custom-sub-menu displayMenu">#}
+                                            {#													<li><a href="#">Живописной дороги к рице</a></li>#}
+                                            {#													<li><a href="#">Живописной дороги к рице</a></li>#}
+                                            {#													<li><a href="#">Живописной дороги к рице</a></li>#}
+                                            {#													<li><a href="#">Живописной дороги к рице</a></li>#}
+                                            {#													<li><a href="#">Живописной дороги к рице</a></li>#}
+                                            {#												</ul>#}
+                                            {#											#}
+                                            {#											</li>#}
+                                            {#											<li id="li-sub-6">#}
+                                            {#												<a @mouseover="selectSubMenu(6)" href="#">В Абхазию из#}
+                                            {#													Адлера</a>#}
+                                            {#												#}
+                                            {#												<ul class="custom-sub-menu displayMenu">#}
+                                            {#													<li><a href="#">Живописной дороги к рице</a></li>#}
+                                            {#													<li><a href="#">Живописной дороги к рице</a></li>#}
+                                            {#													<li><a href="#">Живописной дороги к рице</a></li>#}
+                                            {#													<li><a href="#">Живописной дороги к рице</a></li>#}
+                                            {#													<li><a href="#">Живописной дороги к рице</a></li>#}
+                                            {#												</ul>#}
+                                            {#											</li>#}
+                                            {#											<li id="li-sub-7">#}
+                                            {#												<a @mouseover="selectSubMenu(7)" href="#">Олимпийский#}
+                                            {#													парк</a>#}
+                                            {#												#}
+                                            {#												<ul class="custom-sub-menu displayMenu">#}
+                                            {#													<li><a href="#">Живописной дороги к рице</a></li>#}
+                                            {#													<li><a href="#">Живописной дороги к рице</a></li>#}
+                                            {#													<li><a href="#">Живописной дороги к рице</a></li>#}
+                                            {#													<li><a href="#">Живописной дороги к рице</a></li>#}
+                                            {#													<li><a href="#">Живописной дороги к рице</a></li>#}
+                                            {#												</ul>#}
+                                            {#											#}
+                                            {#											</li>#}
+                                        </ul>
+
+                                    </div>
+                                    <div class="col-md-8 desktop-menu">
+
+                                        <div class="row">
+{#                                            {% for category in categories %}#}
+{#                                                <ul class="custom-sub-menu {% if loop.index == 1 %}displayMenu{% endif %}" id="sub-{{ loop.index }}">#}
+{#                                                    {% for event in category.events %}#}
+{#														<li><a href="{{ path('excursion-action', {'excursionLink': event.link}) }}">{{ event.title | upper }}</a></li>#}
+{#                                                    {% endfor %}#}
+{#                                                </ul>#}
+{#                                            {% endfor %}#}
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </li>
+                    <li>
+                        <a href="">Мероприятия</a>
+                        <div class="sf-mega row-blocks">
+
+                            <div class="container-fluid">
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+{#                                            {% for page in mainPages %}#}
+{#                                                <div class="col-md-3">#}
+
+{#                                                    <div class="menu-new-item">#}
+{#                                                        <img class="responsive-img"#}
+{#                                                             src="{{ page_images_directory ~ page.preview }}"#}
+{#                                                             alt="Alt">#}
+{#                                                        <h3>#}
+{#                                                            <a href="{{ path('event-by-link-action', {'link': page.link}) }}">{{ page.title }}</a>#}
+{#                                                        </h3>#}
+{#                                                        <p>{{ page.description | slice(0, 100) }}</p>#}
+{#                                                    </div>#}
+
+{#                                                </div>#}
+{#                                            {% endfor %}#}
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#">Детские экскурсии</a>
+                    </li>
+                    <li>
+                        <a href="">Блог</a>
+                    </li>
+                    <li>
+                        <a href="">О нас</a>
+                    </li>
+                    <li>
+                        <a href="">Контакты</a>
+                    </li>
+{#                    {% if app.user and app.user is instanceof('\\Rutasochi\\AdminBundle\\Entity\\SimpleUser') %}#}
+{#                        <li>#}
+{#                            <a href="{{ path('lk') }}">Личный кабинет</a>#}
+{#                        </li>#}
+{#                    {% endif %}#}
+                    <li>
+                        <a href="">
+                            <i class="material-icons">shopping_cart</i>
+                            <span style="float: right;margin: 5px 0 0 10px;"><span>${cartCount()}</span> товар</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>

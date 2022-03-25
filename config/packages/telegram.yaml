@@ -1,0 +1,23 @@
+
+telegram_bot_api:
+  # Proxy (optional) :
+  #proxy: 'socks5h://127.0.0.1:5090' # this is example you have to change this
+  #async_requests: false
+
+  # Development section:
+  development:
+    # Telegram user_id of developers accounts
+    developers_id: []
+    # If this mode is enabled, the robot only responds to the developers
+    maintenance:
+      enable: false
+      text: "The robot is being repaired! Please come back later."
+
+  # Bots:
+  bots:
+    # The bot name
+    first:
+      # Your bot token: (required)
+      token: 1001979581:AAF_r8ryClsdK-RnI2YCFgjxSeET39dTDV0
+
+  # The default bot re

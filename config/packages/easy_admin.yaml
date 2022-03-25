@@ -1,0 +1,79 @@
+easy_admin:
+    site_name: '<em style="font-size: 80%;font-size:2rem;">Sollento</em> Admin'
+    user:
+        display_name: true
+        display_avatar: true
+        name_property_path: 'fullName'
+        avatar_property_path: 'avatar'
+    design:
+        brand_color: 'rgba(26, 188, 156, 0.85)'
+        menu:
+            - { label: 'Настройки системы' }
+            - { entity: User, icon: 'user-friends', permission: 'ROLE_SUPER_ADMIN' }
+            - { entity: CarPost, icon: 'newspaper' }
+            - { entity: Subscription, icon: 'archive', target: '_blank', permission: 'ROLE_SUPER_ADMIN' }
+            - { entity: Admins, icon: 'user' }
+            - label: 'Статистика'
+              children:
+                  - { entity: User, icon: 'user-friends'  }
+                  - { entity: CarPost, icon: 'newspaper' }
+                  - { entity: Subscription, icon: 'archive', target: '_blank' }
+    entities:
+        CarPost:
+            class: App\Entity\CarPost
+            label: Объявления
+            list:
+                max_results: 30
+                item_permission: ['ROLE_SUPER_ADMIN', 'ROLE_USER']
+                fields:
+                    - { property: 'id', label: 'ID', permission: 'ROLE_SUPER_ADMIN' }
+                    - { property: 'title', label: 'Название' }
+                    - { property: 'createdAt', label: 'Дата создания', format: 'Y-m-d H:i' }
+                    - { property: 'previewImage', label: 'Заглавное изображение', type: 'image', permission: ['ROLE_SUPER_ADMIN', 'ROLE_USER'] }
+                actions:
+                    - { name: 'send', label: 'Отослать', icon: 'plus-square' }
+                    - { name: 'block', label: 'Заблокировать' }
+                batch_actions:
+                    - { name: 'delete', label: 'Удалить (навсегда)', ask_confirm: true }
+                    - { name: 'send', label: 'Разослать' }
+                    - { name: 'notify', label: 'Оповестить' }
+                filters: ['createdAt', 'title']
+            search:
+                fields: ['title', 'createdAt']
+        User:
+            class: App\Entity\User\User
+            label: Пользователи
+            list:
+                fields:
+                    - { property: 'id', label: 'ID' }
+                    - { property: 'username', label: 'Имя пользователя' }
+                    - { property: 'email', label: 'Почта' }
+        Subscription:
+            class: App\Entity\User\Subscription
+            label: Подписки
+            list:
+                batch_actions:
+                    - { name: 'delete', label: 'Удалить (навсегда)', ask_confirm: true }
+        Admins:
+            class: App\Entity\User
+            label: Администраторы
+            form:
+                fields:
+                    - { property: 'id', label: 'ID' }
+                    - { property: 'email', label: 'Электронная почта', type: 'email' }
+                    - { property: 'firstName', label: 'Имя' }
+                    - { property: 'lastName', label: 'Фамилия' }
+                    - { property: 'avatar', label: 'Аватарка', type: 'file_upload', type_options: { upload_dir: 'public/downloads', upload_filename: '[uuid].[extension]', download_path: 'public/downloads' } }
+                    - { property: 'siteLink', label: 'Ссылка на сайт', type: 'url' }
+                    - { property: 'phoneNumber', label: 'Номер телефона', type: 'tel' }
+            list:
+                fields:
+                    - { property: 'id', label: 'ID' }
+                    - { property: 'email', label: 'Электронная почта', type: 'email' }
+                    - { property: 'firstName', label: 'Имя' }
+                    - { property: 'lastName', label: 'Фамилия' }
+                    - { property: 'avatarVirtual', label: 'Аватарка', type: 'image', is_image_url: true, height: 'lg' }
+                    - { property: 'siteLink', label: 'Ссылка на сайт', type: 'url' }
+                    - { property: 'phoneNumber', label: 'Номер телефона', type: 'tel' }
+            edit:
+                title: 'Редактирование администратора'
