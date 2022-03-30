@@ -22,7 +22,8 @@ final class CustomController extends AbstractController
     public function index(int $max)
     {
         dump($max);
-        dump('Hello custom route');exit();
+        dump('Hello custom route');
+        exit();
     }
 
     /**
