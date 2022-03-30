@@ -2,30 +2,35 @@
 
 namespace App\Service\Payment;
 
+use BeGateway\Logger;
+use BeGateway\PaymentOperation;
+use BeGateway\Settings;
+use Goutte\Client;
+
 /**
  * Class PaymentService
  */
 class PaymentService
 {
     /**
-     * @var
+     * @var Client
      */
-    private $client;
+    private Client $client;
 
     /**
      * PaymentService constructor.
      */
     public function __construct()
     {
-        \BeGateway\Settings::$shopId  = 361;
-        \BeGateway\Settings::$shopKey= 'b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d';
+        Settings::$shopId  = 361;
+        Settings::$shopKey= 'b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d';
 
-        \BeGateway\Logger::getInstance()->setLogLevel(\BeGateway\Logger::INFO);
+        Logger::getInstance()->setLogLevel(Logger::INFO);
     }
 
     public function pay()
     {
-        $transaction = new \BeGateway\PaymentOperation();
+        $transaction = new PaymentOperation();
 
         $transaction->money->setAmount(1.00);
         $transaction->money->setCurrency('EUR');

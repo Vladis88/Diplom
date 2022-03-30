@@ -17,12 +17,12 @@ class SubscriptionResolverService
     /**
      * @var array
      */
-    private $deliveryServices = array();
+    private array $deliveryServices = array();
 
     /**
      * @var EntityManagerInterface
      */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     /**
      * SubscriptionResolverService constructor.
@@ -38,7 +38,7 @@ class SubscriptionResolverService
      */
     public function addDeliveryService(DeliveryInterface $deliveryService)
     {
-        array_push($this->deliveryServices, $deliveryService);
+        $this->deliveryServices[] = $deliveryService;
     }
 
     /**
@@ -51,10 +51,10 @@ class SubscriptionResolverService
         );
 
         foreach ($subscriptions as $subscription) {
-            $conditionModel = $subscription->getModel() ? $subscription->getModel()  ===
-                $post->getCarInfo()->getModel() : true;
-            $conditionGeneration = $subscription->getGeneration() ? $subscription->getGeneration() ===
-                $post->getCarInfo()->getGeneration() : true;
+            $conditionModel = !$subscription->getModel() || $subscription->getModel() ===
+                $post->getCarInfo()->getModel();
+            $conditionGeneration = !$subscription->getGeneration() || $subscription->getGeneration() ===
+                $post->getCarInfo()->getGeneration();
             if (
                 ($subscription->getMark() === $post->getCarInfo()->getMark()) &&
                 $conditionModel && $conditionGeneration

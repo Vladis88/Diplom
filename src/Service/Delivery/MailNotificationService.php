@@ -18,12 +18,12 @@ class MailNotificationService implements DeliveryInterface
     /**
      * @var \Swift_Mailer
      */
-    private $mailer;
+    private \Swift_Mailer $mailer;
 
     /**
      * @var ContainerInterface
      */
-    private $container;
+    private ContainerInterface $container;
 
     /**
      * MailNotificationService constructor.
@@ -31,7 +31,7 @@ class MailNotificationService implements DeliveryInterface
      * @param ContainerInterface $container
      */
     public function __construct(
-        \Swift_Mailer $mailer,
+        \Swift_Mailer      $mailer,
         ContainerInterface $container
     )
     {
@@ -41,7 +41,6 @@ class MailNotificationService implements DeliveryInterface
 
     /**
      * @param TransferInterface $transfer
-     * @throws \Twig\Error\Error
      */
     public function transfer(TransferInterface $transfer): void
     {

@@ -14,12 +14,12 @@ class TelegramNotificationService implements DeliveryInterface
     /**
      * @var Api
      */
-    protected $client;
+    protected Api $client;
 
     /**
      * @var string
      */
-    protected $chatId;
+    protected string $chatId;
 
     /**
      * TelegramNotificationService constructor.

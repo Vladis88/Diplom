@@ -11,6 +11,7 @@ use Clue\React\Buzz\Browser;
 use Doctrine\ORM\EntityManagerInterface;
 use Goutte\Client;
 use Psr\Http\Message\ResponseInterface;
+use React\EventLoop\Factory;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -22,70 +23,70 @@ class CarPostCrawlerService
     /**
      * @var Browser
      */
-    private $browser;
+    private Browser $browser;
 
     /**
      * @var Client
      */
-    private $client;
+    private Client $client;
 
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $entityManager;
 
     /**
      * @var CarMarkRepository
      */
-    private $carMarkRepository;
+    private CarMarkRepository $carMarkRepository;
 
     /**
      * @var CarModelRepository
      */
-    private $carModelRepository;
+    private CarModelRepository $carModelRepository;
 
     /**
      * @var CarPostService
      */
-    private $carPostService;
+    private CarPostService $carPostService;
 
     /**
      * @var array
      */
-    private $imagesQueue;
+    private array $imagesQueue;
 
     /**
      * @var array
      */
-    private $galleryForEveryCar;
+    private array $galleryForEveryCar;
 
     /**
      * @var array
      */
-    private $currentCarLinks = [];
+    private array $currentCarLinks = [];
 
     /**
      * CarPostCrawlerService constructor.
      * @param CarPostService $carPostService
      * @param Client $client
-     * @param EntityManagerInterface $em
+     * @param EntityManagerInterface $entityManager
      * @param CarMarkRepository $carMarkRepository
      * @param CarModelRepository $carModelRepository
      */
     public function __construct(
-        CarPostService $carPostService,
-        Client $client,
-        EntityManagerInterface $em,
-        CarMarkRepository $carMarkRepository,
-        CarModelRepository $carModelRepository
+        CarPostService         $carPostService,
+        Client                 $client,
+        EntityManagerInterface $entityManager,
+        CarMarkRepository      $carMarkRepository,
+        CarModelRepository     $carModelRepository
     )
     {
-        $loop = \React\EventLoop\Factory::create();
-        $this->browser = new \Clue\React\Buzz\Browser($loop);
+        $loop = Factory::create();
+        $this->browser = new Browser($loop);
 
         $this->carPostService = $carPostService;
         $this->client = $client;
-        $this->em = $em;
+        $this->entityManager = $entityManager;
         $this->carMarkRepository = $carMarkRepository;
         $this->carModelRepository = $carModelRepository;
     }
@@ -171,7 +172,7 @@ class CarPostCrawlerService
                 unset($phonesNumbers[$key]);
         }
 
-        $array = [
+        return [
             'title' => trim($title),
             'price' => (int)filter_var($price, FILTER_SANITIZE_NUMBER_INT),
             'description' => trim($description),
@@ -183,8 +184,6 @@ class CarPostCrawlerService
             'previewImageLink' => $previewImage,
             'carInfo' => $this->extractCarInfo($crawler, $url, trim($title))
         ];
-
-        return $array;
     }
 
     /**
@@ -233,15 +232,15 @@ class CarPostCrawlerService
      */
     public function extractMark(string $url): int
     {
-       $path = parse_url($url, PHP_URL_PATH);
-       $array = explode('/', $path);
+        $path = parse_url($url, PHP_URL_PATH);
+        $array = explode('/', $path);
 
-       /** @var CarMark $mark */
-       $mark = $this->em->getRepository(CarMark::class)->findOneBy([
-           'nameFromLink' => $array[1]
-       ]);
+        /** @var CarMark $mark */
+        $mark = $this->entityManager->getRepository(CarMark::class)->findOneBy([
+            'nameFromLink' => $array[1]
+        ]);
 
-       return $mark->getId();
+        return $mark->getId();
     }
 
     /**
@@ -255,7 +254,7 @@ class CarPostCrawlerService
         $array = explode('/', $path);
 
         /** @var CarModel $model */
-        $model = $this->em->getRepository(CarModel::class)->findOneBy([
+        $model = $this->entityManager->getRepository(CarModel::class)->findOneBy([
             'mark' => $markId,
             'nameFromLink' => $array[2]
         ]);
@@ -270,7 +269,7 @@ class CarPostCrawlerService
      */
     public function extractGeneration(string $title, int $carModel): ?int
     {
-        $model = $this->em->getRepository(CarModel::class)->find($carModel);
+        $model = $this->entityManager->getRepository(CarModel::class)->find($carModel);
         /** @var CarMark $mark */
         $mark = $model->getMark();
 //        dump($title);
@@ -290,17 +289,17 @@ class CarPostCrawlerService
                 continue;
             }
 
-            array_push($resultItems, $item);
+            $resultItems[] = $item;
         }
 
         $variants = array();
 
         for ($i = count($resultItems); $i > 0; $i--) {
-            array_push($variants, implode(' ', array_slice($resultItems, 0, $i)));
+            $variants[] = implode(' ', array_slice($resultItems, 0, $i));
         }
 
         foreach ($variants as $variant) {
-            $needle = $this->em->getRepository(CarGeneration::class)->findOneBy([
+            $needle = $this->entityManager->getRepository(CarGeneration::class)->findOneBy([
                 'model' => $model,
                 'name' => $variant
             ]);
@@ -336,7 +335,7 @@ class CarPostCrawlerService
                 }
             }
             if ($flag) {
-                array_push($diffLinks, $newLinks[$i]);
+                $diffLinks[] = $newLinks[$i];
             }
         }
 

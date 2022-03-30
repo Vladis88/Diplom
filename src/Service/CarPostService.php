@@ -35,37 +35,37 @@ class CarPostService
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $entityManager;
 
     /**
      * @var CarEngineTypeRepository
      */
-    private $carEngineTypeRepository;
+    private CarEngineTypeRepository $carEngineTypeRepository;
 
     /**
      * @var CarBodyTypeRepository
      */
-    private $carBodyTypeRepository;
+    private CarBodyTypeRepository $carBodyTypeRepository;
 
     /**
      * @var CarShapeRepository
      */
-    private $carShapeRepository;
+    private CarShapeRepository $carShapeRepository;
 
     /**
      * @var MessageBusInterface
      */
-    private $messageBus;
+    private MessageBusInterface $messageBus;
 
     /**
      * @var UploaderServiceInterface
      */
-    private $uploaderService;
+    private UploaderServiceInterface $uploaderService;
 
     /**
      * @var UploaderServiceInterface
      */
-    private $carUploaderService;
+    private UploaderServiceInterface $carUploaderService;
 
     /**
      * @param UploaderServiceInterface $uploaderService
@@ -82,21 +82,21 @@ class CarPostService
 
     /**
      * CarPostService constructor.
-     * @param EntityManagerInterface $em
+     * @param EntityManagerInterface $entityManager
      * @param CarEngineTypeRepository $carEngineTypeRepository
      * @param CarBodyTypeRepository $carBodyTypeRepository
      * @param CarShapeRepository $carShapeRepository
      * @param MessageBusInterface $messageBus
      */
     public function __construct(
-        EntityManagerInterface $em,
+        EntityManagerInterface  $entityManager,
         CarEngineTypeRepository $carEngineTypeRepository,
-        CarBodyTypeRepository $carBodyTypeRepository,
-        CarShapeRepository $carShapeRepository,
-        MessageBusInterface $messageBus
+        CarBodyTypeRepository   $carBodyTypeRepository,
+        CarShapeRepository      $carShapeRepository,
+        MessageBusInterface     $messageBus
     )
     {
-        $this->em = $em;
+        $this->entityManager = $entityManager;
         $this->carEngineTypeRepository = $carEngineTypeRepository;
         $this->carBodyTypeRepository = $carBodyTypeRepository;
         $this->carShapeRepository = $carShapeRepository;
@@ -145,10 +145,10 @@ class CarPostService
                 dump($e->getMessage());
             }
 
-            $carInfo->setMark($this->em->getRepository(CarMark::class)->find($post['carInfo']['mark']));
-            $carInfo->setModel($this->em->getRepository(CarModel::class)->find($post['carInfo']['model']));
+            $carInfo->setMark($this->entityManager->getRepository(CarMark::class)->find($post['carInfo']['mark']));
+            $carInfo->setModel($this->entityManager->getRepository(CarModel::class)->find($post['carInfo']['model']));
             try {
-                $carInfo->setGeneration($this->em->getRepository(CarGeneration::class)->find($post['carInfo']['generation']));
+                $carInfo->setGeneration($this->entityManager->getRepository(CarGeneration::class)->find($post['carInfo']['generation']));
             } catch (\Exception $exception) {
                 dump($exception->getMessage());
             }
@@ -159,24 +159,24 @@ class CarPostService
             $carInfo->setYear($post['carInfo']['year']);
             $carInfo->setMileage((int)filter_var($post['carInfo']['mileage'],FILTER_SANITIZE_NUMBER_INT));
             $carInfo->setMileageMeasure($this->getMileageMeasure($post['carInfo']['mileage']));
-            $carInfo->setColor($this->em->getRepository(CarColor::class)->findOneBy([
+            $carInfo->setColor($this->entityManager->getRepository(CarColor::class)->findOneBy([
                 'name' => $post['carInfo']['color']
             ]));
-            $carInfo->setTransmission($this->em->getRepository(CarTransmission::class)->findOneBy([
+            $carInfo->setTransmission($this->entityManager->getRepository(CarTransmission::class)->findOneBy([
                 'name' => $post['carInfo']['transmission']
             ]));
             $carInfo->setShape($this->carShapeRepository->findOneByName($post['carInfo']['shape']));
 
             $carPost->setCarInfo($carInfo);
 
-            $this->em->persist($carPrice);
-            $this->em->persist($carEngine);
-            $this->em->persist($carPost);
+            $this->entityManager->persist($carPrice);
+            $this->entityManager->persist($carEngine);
+            $this->entityManager->persist($carPost);
 
-            array_push($carPosts, $carPost);
+            $carPosts[] = $carPost;
         }
 
-        $this->em->flush();
+        $this->entityManager->flush();
 
         return $carPosts;
     }
@@ -188,9 +188,7 @@ class CarPostService
     public function getEngineCapacity(string $capacity): int
     {
         $array = explode(' ', $capacity);
-        $engineCapacity = (int) $array[0];
-
-        return $engineCapacity;
+        return (int) $array[0];
     }
 
     /**
@@ -199,7 +197,7 @@ class CarPostService
      */
     private function getMileageMeasure(string $mileageMeasure): CarMileageMeasure
     {
-        return $this->em->getRepository(CarMileageMeasure::class)->findOneBy([
+        return $this->entityManager->getRepository(CarMileageMeasure::class)->findOneBy([
             'name' => 'км'
         ]);
     }
@@ -227,7 +225,7 @@ class CarPostService
                     );
             }
         }
-        $this->em->flush();
+        $this->entityManager->flush();
     }
 
     /**
@@ -236,7 +234,7 @@ class CarPostService
      */
     public function getLastPostsLinks(int $limit = 25): array
     {
-        $carPosts = $this->em->getRepository(CarPost::class)->findBy(
+        $carPosts = $this->entityManager->getRepository(CarPost::class)->findBy(
             array(),
             array('createdAtInSystem' => 'DESC'),
             $limit

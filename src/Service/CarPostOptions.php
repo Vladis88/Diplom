@@ -11,7 +11,7 @@ class CarPostOptions
     /**
      * @var array
      */
-    public static $carInfoData = array(
+    public static array $carInfoData = array(
         'Год выпуска' => 'year',
         'Состояние' => 'shape',
         'Пробег' => 'mileage',
