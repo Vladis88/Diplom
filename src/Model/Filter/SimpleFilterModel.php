@@ -10,24 +10,24 @@ class SimpleFilterModel
     /**
      * @var integer
      */
-    private $mark;
+    private int $mark;
 
     /**
      * @var integer
      */
-    private $model;
+    private int $model;
 
     /**
      * @var integer
      */
-    private $generation;
+    private int $generation;
 
     /**
      * @return array
      */
-    public function getConditions()
+    public function getConditions(): array
     {
-         return [
+        return [
             'mark' => $this->mark,
             'model' => $this->model,
             'generation' => $this->generation

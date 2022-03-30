@@ -12,17 +12,17 @@ class TransferModel implements TransferInterface
     /**
      * @var UserInterface
      */
-    private $user;
+    private UserInterface $user;
 
     /**
      * @var PostInterface
      */
-    private $post;
+    private PostInterface $post;
 
     /**
      * @var SubscriptionInterface
      */
-    private $subscription;
+    private SubscriptionInterface $subscription;
 
     /**
      * TransferModel constructor.
