@@ -6,14 +6,14 @@ use App\Entity\User\SubscriptionService;
 use App\Service\Delivery\MailNotificationService;
 use App\Service\Delivery\PushNotificationService;
 use App\Service\Delivery\SmsNotificationService;
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 /**
  * Class SubscriptionServicesFixture
  * @package App\DataFixtures\User
  */
-class SubscriptionServicesFixture implements FixtureInterface
+class SubscriptionServicesFixture extends Fixture
 {
 
     /**
