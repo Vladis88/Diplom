@@ -560,9 +560,6 @@
             "config/packages/messenger.yaml"
         ]
     },
-    "symfony/mime": {
-        "version": "v4.3.8"
-    },
     "symfony/monolog-bridge": {
         "version": "v4.3.8"
     },
@@ -598,6 +595,9 @@
             "phpunit.xml.dist",
             "tests/.gitignore"
         ]
+    },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.25.0"
     },
     "symfony/polyfill-intl-icu": {
         "version": "v1.12.0"
@@ -678,6 +678,9 @@
     },
     "symfony/stopwatch": {
         "version": "v4.3.8"
+    },
+    "symfony/string": {
+        "version": "v5.4.3"
     },
     "symfony/swiftmailer-bundle": {
         "version": "2.5",

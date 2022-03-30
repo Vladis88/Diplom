@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a4402ca6493f06f66ee8e0c272a98a31",
+    "content-hash": "a3fc2bddf5d885240b896b94d8482c3a",
     "packages": [
         {
             "name": "begateway/begateway-api-php",
@@ -13896,26 +13896,25 @@
         },
         {
             "name": "symfony/web-server-bundle",
-            "version": "v4.4.37",
+            "version": "v4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/web-server-bundle.git",
-                "reference": "8cbf9d741b57f4dc298478768865d2e8385552c0"
+                "reference": "83202a9dae60b29eb55ae1a0c6696c586de3ce0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/web-server-bundle/zipball/8cbf9d741b57f4dc298478768865d2e8385552c0",
-                "reference": "8cbf9d741b57f4dc298478768865d2e8385552c0",
+                "url": "https://api.github.com/repos/symfony/web-server-bundle/zipball/83202a9dae60b29eb55ae1a0c6696c586de3ce0b",
+                "reference": "83202a9dae60b29eb55ae1a0c6696c586de3ce0b",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1.3",
+                "php": "^7.1.3",
                 "symfony/config": "^3.4|^4.0|^5.0",
                 "symfony/console": "^3.4|^4.0|^5.0",
                 "symfony/dependency-injection": "^3.4|^4.0|^5.0",
                 "symfony/http-kernel": "^3.4|^4.0|^5.0",
                 "symfony/polyfill-ctype": "~1.8",
-                "symfony/polyfill-php80": "^1.16",
                 "symfony/process": "^3.4.2|^4.0.2|^5.0"
             },
             "suggest": {
@@ -13923,6 +13922,11 @@
                 "symfony/monolog-bridge": "For using the log server."
             },
             "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.4-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Symfony\\Bundle\\WebServerBundle\\": ""
@@ -13945,26 +13949,12 @@
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Provides commands for running applications using the PHP built-in web server",
+            "description": "Symfony WebServerBundle",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/web-server-bundle/tree/v4.4.37"
+                "source": "https://github.com/symfony/web-server-bundle/tree/v4.4.0-BETA1"
             },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2022-01-02T09:41:36+00:00"
+            "time": "2019-10-12T00:35:04+00:00"
         },
         {
             "name": "theseer/tokenizer",
