@@ -3,20 +3,20 @@
 namespace App\DataFixtures\User;
 
 use App\Entity\User\User;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserFixture
  */
-class UserFixture extends  Fixture implements FixtureGroupInterface
+class UserFixture implements FixtureGroupInterface, FixtureInterface
 {
     /**
      * @var UserPasswordEncoderInterface
      */
-    private $passwordEncoder;
+    private UserPasswordEncoderInterface $passwordEncoder;
 
     /**
      * UserFixture constructor.
