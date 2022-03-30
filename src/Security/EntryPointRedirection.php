@@ -22,12 +22,12 @@ class EntryPointRedirection implements AuthenticationEntryPointInterface
     /**
      * @var FlashBagInterface
      */
-    private $flashBag;
+    private FlashBagInterface $flashBag;
 
     /**
      * @var RouterInterface
      */
-    private $router;
+    private RouterInterface $router;
 
     /**
      * AccessDeniedHandler constructor.
