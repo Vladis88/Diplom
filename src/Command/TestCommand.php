@@ -17,7 +17,7 @@ class TestCommand extends Command
     /**
      * @var PaymentService
      */
-    private $paymentService;
+    private PaymentService $paymentService;
 
     /**
      * TestCommand constructor.
@@ -38,7 +38,7 @@ class TestCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return int|void|null
+     * @return void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

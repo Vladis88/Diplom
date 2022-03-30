@@ -21,12 +21,12 @@ class ParseCarStaticCommand extends Command
     /**
      * @var Client
      */
-    private $client;
+    private Client $client;
 
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $entityManager;
 
     /**
      * @var string
@@ -36,14 +36,14 @@ class ParseCarStaticCommand extends Command
     /**
      * ParseCarStaticCommand constructor.
      * @param Client $client
-     * @param EntityManagerInterface $em
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(Client $client, EntityManagerInterface $em)
+    public function __construct(Client $client, EntityManagerInterface $entityManager)
     {
         parent::__construct();
 
         $this->client = $client;
-        $this->em = $em;
+        $this->entityManager = $entityManager;
     }
 
     protected function configure()
@@ -55,7 +55,7 @@ class ParseCarStaticCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return int|void|null
+     * @return void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -96,7 +96,7 @@ class ParseCarStaticCommand extends Command
                 $carModel = new CarModel();
                 $carModel->setName($model['name']);
                 $carModel->setAvByLinkName($model['link']);
-                $carModel->setCarMark($carMark);
+                $carModel->setMark($carMark);
 
                 $generationCrawler = $this->client->request('GET', $model['link']);
 
@@ -115,21 +115,21 @@ class ParseCarStaticCommand extends Command
                     if ($generation !== null) {
                         $carGeneration = new CarGeneration();
                         $carGeneration->setName($generation);
-                        $carGeneration->setCarModel($carModel);
+                        $carGeneration->setModel($carModel);
 
-                        $this->em->persist($carGeneration);
+                        $this->entityManager->persist($carGeneration);
                     }
                 }
 
-                $this->em->persist($carModel);
+                $this->entityManager->persist($carModel);
             }
 
-            $this->em->persist($carMark);
+            $this->entityManager->persist($carMark);
 
             $count++;
         }
 
-        $this->em->flush();
+        $this->entityManager->flush();
 
         $executionEndTime = microtime(true);
 

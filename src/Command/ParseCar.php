@@ -8,9 +8,11 @@ use App\Service\CarPostService;
 use App\Service\SubscriptionResolverService;
 use Clue\React\Buzz\Browser;
 use Psr\Http\Message\ResponseInterface;
+use React\EventLoop\Factory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class ParseCar
@@ -24,34 +26,29 @@ class ParseCar extends Command
     protected static $defaultName = 'app:parse-car';
 
     /**
-     * @var Browser
-     */
-    private $browser;
-
-    /**
      * @var CarPostService
      */
-    private $carPostService;
+    private CarPostService $carPostService;
 
     /**
      * @var CarPostCrawlerService
      */
-    private $carPostCrawlerService;
+    private CarPostCrawlerService $carPostCrawlerService;
 
     /**
      * @var \Symfony\Component\Filesystem\Filesystem
      */
-    private $symfonyFilesystem;
+    private Filesystem $symfonyFilesystem;
 
     /**
      * @var SubscriptionResolverService
      */
-    private $subscriptionResolverService;
+    private SubscriptionResolverService $subscriptionResolverService;
 
     /**
      * @var array
      */
-    private $resultCars = [];
+    private array $resultCars = [];
 
     /**
      * ParseCar constructor.
@@ -61,9 +58,9 @@ class ParseCar extends Command
      * @param SubscriptionResolverService $subscriptionResolverService
      */
     public function __construct(
-        \Symfony\Component\Filesystem\Filesystem $symfonyFilesystem,
-        CarPostService $carPostService,
-        CarPostCrawlerService $carPostCrawlerService,
+        Filesystem                  $symfonyFilesystem,
+        CarPostService              $carPostService,
+        CarPostCrawlerService       $carPostCrawlerService,
         SubscriptionResolverService $subscriptionResolverService
     )
     {
@@ -84,7 +81,7 @@ class ParseCar extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return int|void|null
+     * @return void
      * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -94,13 +91,13 @@ class ParseCar extends Command
 
         $this->carPostCrawlerService->fillCarLinks();
 
-        $loop = \React\EventLoop\Factory::create();
-        $this->browser = new \Clue\React\Buzz\Browser($loop);
+        $loop = Factory::create();
+        $browser = new Browser($loop);
 
         var_dump($this->carPostCrawlerService->getCurrentCarLinks());
 
         foreach ($this->carPostCrawlerService->getCurrentCarLinks() as $url) {
-            $this->browser->get($url)
+            $browser->get($url)
                 ->then(function (ResponseInterface $response) use ($url) {
                     $array = $this
                         ->carPostCrawlerService

@@ -23,16 +23,16 @@ class FormGenerationsCommand extends Command
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $entityManager;
 
     /**
      * FormGenerationsCommand constructor.
-     * @param EntityManagerInterface $em
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         parent::__construct();
-        $this->em = $em;
+        $this->entityManager = $entityManager;
     }
 
 
@@ -45,12 +45,12 @@ class FormGenerationsCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return int|void|null
+     * @return void
      * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $generations = $this->em->getRepository(CarGeneration::class)->findAll();
+        $generations = $this->entityManager->getRepository(CarGeneration::class)->findAll();
 
         /** @var CarGeneration $generation */
         foreach ($generations as $generation) {
@@ -76,6 +76,6 @@ class FormGenerationsCommand extends Command
             $generation->setToYear($toYear !== 'н.в.' ? $toYearDate : new \DateTime('now'));
         }
 
-        $this->em->flush();
+        $this->entityManager->flush();
     }
 }

@@ -6,7 +6,7 @@ use App\Entity\CarPost;
 use Clue\React\Buzz\Browser;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Http\Message\ResponseInterface;
-use React\EventLoop\LoopInterface;
+use React\EventLoop\Factory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,28 +22,23 @@ class FillPhotosCommand extends Command
     /**
      * @var EntityManagerInterface
      */
-    private $em;
-
-    /**
-     * @var Browser
-     */
-    private $browser;
+    private EntityManagerInterface $entityManager;
 
     /**
      * @var array
      */
-    private $imagesQueue;
+    private array $imagesQueue;
 
     /**
      * @var array
      */
-    private $galleryForEveryCar;
+    private array $galleryForEveryCar;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         parent::__construct();
 
-        $this->em = $em;
+        $this->entityManager = $entityManager;
     }
 
     protected function configure()
@@ -54,16 +49,16 @@ class FillPhotosCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return int|void|null
+     * @return void
      * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $loop = \React\EventLoop\Factory::create();
-        $this->browser = new \Clue\React\Buzz\Browser($loop);
+        $loop = Factory::create();
+        $browser = new Browser($loop);
 
         /** @var CarPost[] $carPosts */
-        $carPosts = $this->em->getRepository(CarPost::class)->findBy([
+        $carPosts = $this->entityManager->getRepository(CarPost::class)->findBy([
             'isActive' => false
         ]);
 
@@ -78,11 +73,11 @@ class FillPhotosCommand extends Command
             $previewImageName = "avto-" . $currentDate->format('Y-m-d_H:i:s.u');
 
             // Save binary image in
-            $this->browser->get($photoLink)->then(
+            $browser->get($photoLink)->then(
                 function (ResponseInterface $response) use ($previewImageName) {
                     // store image
                     var_dump('HELLO');
-                    $this->imagesQueue[$previewImageName] = (string) $response->getBody();
+                    $this->imagesQueue[$previewImageName] = (string)$response->getBody();
                 },
                 function () {
                     dump('REJECT');
@@ -100,11 +95,11 @@ class FillPhotosCommand extends Command
                 $previewImageName1 = "avto-" . $currentDate->format('Y-m-d_H:i:s.u');
 
                 // Save binary image in
-                $this->browser->get($item)->then(
+                $browser->get($item)->then(
                     function (ResponseInterface $response) use ($previewImageName1, $previewImageName) {
                         // store image
                         var_dump('HELLO');
-                        $this->galleryForEveryCar[$previewImageName][$previewImageName1] = (string) $response->getBody();
+                        $this->galleryForEveryCar[$previewImageName][$previewImageName1] = (string)$response->getBody();
                     },
                     function () {
                         dump('REJECT');
@@ -114,22 +109,22 @@ class FillPhotosCommand extends Command
                     }
                 );
 
-                array_push($carGallery, $previewImageName1);
+                $carGallery[] = $previewImageName1;
             }
 
             $post->setPreviewImage($previewImageName);
             $post->setImages($carGallery);
             $post->setIsActive(true);
-            $this->em->persist($post);
-            $this->em->flush();
-            $this->em->refresh($post);
+            $this->entityManager->persist($post);
+            $this->entityManager->flush();
+            $this->entityManager->refresh($post);
 
             if (!$post->getPreviewImage() || ($post->getImages() === null || count($post->getImages()) === 0)) {
                 $post->setIsActive(false);
             }
 
-            $this->em->persist($post);
-            $this->em->flush();
+            $this->entityManager->persist($post);
+            $this->entityManager->flush();
         }
 
         $loop->run();
