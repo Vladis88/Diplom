@@ -16,12 +16,12 @@ class CarGalleryMessageHandler implements MessageHandlerInterface
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $entityManager;
 
     /**
      * @var UploaderServiceInterface
      */
-    private $carUploaderService;
+    private UploaderServiceInterface $carUploaderService;
 
     /**
      * CarGalleryMessageHandler constructor.
@@ -29,7 +29,7 @@ class CarGalleryMessageHandler implements MessageHandlerInterface
      */
     public function __construct(EntityManagerInterface $em)
     {
-        $this->em = $em;
+        $this->entityManager = $em;
     }
 
 
@@ -46,20 +46,20 @@ class CarGalleryMessageHandler implements MessageHandlerInterface
      */
     public function __invoke(CarGalleryMessage $message)
     {
-        $carPost = $this->em->getRepository(CarPost::class)->find((int) $message->getCarPostId());
+        $carPost = $this->entityManager->getRepository(CarPost::class)->find((int) $message->getCarPostId());
 
         if (!$carPost)
             return;
 
         $carImages = array();
         foreach ($carPost->getImagesLinks() as $link) {
-           $carImages[] = $fileName = $this->carUploaderService->uploadOne(
+           $carImages[] = $this->carUploaderService->uploadOne(
                 $carPost,
                 file_get_contents($link)
             );
         }
 
         $carPost->setImages($carImages);
-        $this->em->flush();
+        $this->entityManager->flush();
     }
 }

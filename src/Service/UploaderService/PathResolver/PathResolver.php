@@ -17,24 +17,24 @@ class PathResolver implements PathResolverInterface
     /**
      * @var string
      */
-    protected $projectDir;
+    protected string $projectDir;
 
     /**
      * @var EntityManagerInterface
      */
-    protected $em;
+    protected EntityManagerInterface $entityManager;
 
     /**
      * PathResolver constructor.
      *
      * @param string $projectDir
      *
-     * @param EntityManagerInterface $em
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(string $projectDir, EntityManagerInterface $em)
+    public function __construct(string $projectDir, EntityManagerInterface $entityManager)
     {
         $this->projectDir = $projectDir;
-        $this->em = $em;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -73,9 +73,8 @@ class PathResolver implements PathResolverInterface
      *
      * @return string
      *
-     * @throws \ReflectionException
      */
-    protected function resolveShortClassName($entity)
+    protected function resolveShortClassName($entity): string
     {
         $reflectionClass = new \ReflectionClass($entity);
         return \strtolower($reflectionClass->getShortName());
@@ -86,6 +85,6 @@ class PathResolver implements PathResolverInterface
      */
     public function getWebPath($entity, string $filename): string
     {
-
+        return "";
     }
 }

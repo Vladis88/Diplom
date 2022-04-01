@@ -29,15 +29,15 @@ class CarEngineTypeRepository extends ServiceEntityRepository
      */
     public function findOneByName(string $name)
     {
+        $result = null;
+
         try {
             $result = $this->createQueryBuilder('cet')
                 ->where('upper(cet.name) = upper(:name)')
                 ->setParameter('name', $name)
                 ->getQuery()
                 ->getSingleResult();
-        } catch (NoResultException $e) {
-
-        } catch (NonUniqueResultException $e) {
+        } catch (NoResultException|NonUniqueResultException $e) {
 
         }
 

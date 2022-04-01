@@ -15,12 +15,12 @@ class PushNotificationService implements DeliveryInterface
     /**
      * @var Pusher
      */
-    private $pusher;
+    private Pusher $pusher;
 
     /**
      * @var PushNotifications
      */
-    private $pushNotifications;
+    private PushNotifications $pushNotifications;
 
     /**
      * @var string

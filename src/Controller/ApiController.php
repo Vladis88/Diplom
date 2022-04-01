@@ -26,14 +26,17 @@ class ApiController extends AbstractController
     /**
      * @var CarPostSerializer
      */
-    private $carPostSerializer;
+    private CarPostSerializer $carPostSerializer;
 
     /**
      * @var SimpleFilterRepository
      */
-    private $simpleFilterRepository;
+    private SimpleFilterRepository $simpleFilterRepository;
 
-    private $carPostAttr = [
+    /**
+     * @var array|array[]
+     */
+    private array $carPostAttr = [
         'attributes' => [
             'id',
             'title',
@@ -129,16 +132,16 @@ class ApiController extends AbstractController
      * )
      * @throws ExceptionInterface
      */
-    public function showAll()
+    public function showAll(): JsonResponse
     {
         /** @var CarPost[] $carPosts */
         $carPosts = $this
             ->getDoctrine()
             ->getRepository(CarPost::class)->findBy(
-            [],
-            ['createdAtInSystem' => 'DESC'],
-            10
-        );
+                [],
+                ['createdAtInSystem' => 'DESC'],
+                10
+            );
         $response = new JsonResponse(
             $this
                 ->carPostSerializer
@@ -189,21 +192,21 @@ class ApiController extends AbstractController
             ->getDoctrine()
             ->getRepository(CarModel::class)
             ->findBy([
-            'mark' => $this
-                ->getDoctrine()
-                ->getRepository(CarMark::class)
-                ->find($markId)
-        ]);
+                'mark' => $this
+                    ->getDoctrine()
+                    ->getRepository(CarMark::class)
+                    ->find($markId)
+            ]);
         $response = new JsonResponse(
             $this
                 ->carPostSerializer
                 ->getSerializer()
                 ->normalize($models, null, [
-            'attributes' => [
-                'id',
-                'name'
-            ]
-        ]));
+                    'attributes' => [
+                        'id',
+                        'name'
+                    ]
+                ]));
         $response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;
     }
@@ -286,7 +289,6 @@ class ApiController extends AbstractController
      * @param Request $request
      *
      * @return JsonResponse
-     * @throws ExceptionInterface
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
@@ -304,7 +306,7 @@ class ApiController extends AbstractController
 
             $count = $this->simpleFilterRepository->filter($filterModel, true);
 
-            $response = new JsonResponse(['count' => (int) $count]);
+            $response = new JsonResponse(['count' => (int)$count]);
             $response->headers->set('Access-Control-Allow-Origin', '*');
             return $response;
         }

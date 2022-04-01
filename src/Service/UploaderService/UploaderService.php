@@ -12,12 +12,12 @@ class UploaderService implements UploaderServiceInterface
     /**
      * @var PathResolverInterface
      */
-    protected $pathResolver;
+    protected PathResolverInterface $pathResolver;
 
     /**
      * @var UploaderImageHelperInterface
      */
-    protected $uploaderImageHelper;
+    protected UploaderImageHelperInterface $uploaderImageHelper;
 
     /**
      * UploaderService constructor.

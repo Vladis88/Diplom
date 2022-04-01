@@ -10,12 +10,12 @@ class CarGalleryMessage
     /**
      * @var integer
      */
-    private $carPostId;
+    private int $carPostId;
 
     /**
      * @var array
      */
-    private $imageLinks;
+    private array $imageLinks;
 
     /**
      * CarGalleryMessage constructor.

@@ -21,12 +21,13 @@ class SubscriptionController extends AbstractController
     /**
      * @var CarPostSerializer
      */
-    private $carPostSerializer;
+    private CarPostSerializer $carPostSerializer;
+
 
     /**
-     * @var array
+     * @var array|array[]
      */
-    private $subscriptionSerializable = [
+    private array $subscriptionSerializable = [
         'attributes' => [
             'id',
             'mark' => [

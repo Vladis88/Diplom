@@ -41,8 +41,7 @@ class CarModelRepository extends ServiceEntityRepository
                 ->setParameter('linkPart', $linkPart)
                 ->getQuery()
                 ->getSingleResult();
-        } catch (NoResultException $e) {
-        } catch (NonUniqueResultException $e) {
+        } catch (NoResultException|NonUniqueResultException $e) {
         }
 
         return $mark;

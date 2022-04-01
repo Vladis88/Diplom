@@ -19,9 +19,7 @@ class CarPostSerializer
         $normalizer->setCircularReferenceHandler(function ($object) {
             return $object->getId();
         });
-        $serializer = new Serializer([$normalizer], $encoders);
-
-        return $serializer;
+        return new Serializer([$normalizer], $encoders);
     }
 
 }

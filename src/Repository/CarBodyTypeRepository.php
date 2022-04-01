@@ -37,9 +37,7 @@ class CarBodyTypeRepository extends ServiceEntityRepository
                 ->setParameter('name', $name)
                 ->getQuery()
                 ->getSingleResult();
-        } catch (NoResultException $e) {
-
-        } catch (NonUniqueResultException $e) {
+        } catch (NoResultException|NonUniqueResultException $e) {
 
         }
 

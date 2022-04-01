@@ -20,16 +20,16 @@ class FormMarModelNamesCommand extends Command
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    private EntityManagerInterface $entityManager;
 
     /**
      * FormMarModelNamesCommand constructor.
-     * @param EntityManagerInterface $em
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         parent::__construct();
-        $this->em = $em;
+        $this->entityManager = $entityManager;
     }
 
     protected function configure()
@@ -41,7 +41,7 @@ class FormMarModelNamesCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return int|void|null
+     * @return void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -51,7 +51,7 @@ class FormMarModelNamesCommand extends Command
 
     private function formMarkNames()
     {
-        $marks = $this->em->getRepository(CarMark::class)->findAll();
+        $marks = $this->entityManager->getRepository(CarMark::class)->findAll();
 
         /** @var CarMark $mark */
         foreach ($marks as $mark) {
@@ -63,12 +63,12 @@ class FormMarModelNamesCommand extends Command
             $mark->setNameFromLink($markNameFromLink);
         }
 
-        $this->em->flush();
+        $this->entityManager->flush();
     }
 
     private function formModelNames()
     {
-        $models = $this->em->getRepository(CarModel::class)->findAll();
+        $models = $this->entityManager->getRepository(CarModel::class)->findAll();
 
         /** @var CarModel $model */
         foreach ($models as $model) {
@@ -80,6 +80,6 @@ class FormMarModelNamesCommand extends Command
             $model->setNameFromLink($modelNameFromLink);
         }
 
-        $this->em->flush();
+        $this->entityManager->flush();
     }
 }
