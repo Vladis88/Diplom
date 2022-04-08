@@ -17,19 +17,19 @@ class CarPrice
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var integer
      * @ORM\Column(type="integer")
      */
-    private $byn;
+    private int $byn;
 
     /**
      * @var integer
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $usd;
+    private int $usd;
 
     /**
      * @return int

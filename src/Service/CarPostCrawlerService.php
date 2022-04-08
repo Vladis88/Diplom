@@ -10,7 +10,6 @@ use App\Repository\CarModelRepository;
 use Clue\React\Buzz\Browser;
 use Doctrine\ORM\EntityManagerInterface;
 use Goutte\Client;
-use Psr\Http\Message\ResponseInterface;
 use React\EventLoop\Factory;
 use Symfony\Component\DomCrawler\Crawler;
 

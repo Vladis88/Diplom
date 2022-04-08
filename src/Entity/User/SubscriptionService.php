@@ -16,19 +16,19 @@ class SubscriptionService
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-    private $tag;
+    private string $tag;
 
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $title;
+    private string $title;
 
     /**
      * @return int

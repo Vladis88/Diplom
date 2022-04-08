@@ -19,86 +19,86 @@ class CarPost implements PostInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var CarInfo
      * @ORM\OneToOne(targetEntity="App\Entity\CarInfo", cascade={"persist"})
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $carInfo;
+    private CarInfo $carInfo;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-    private $title;
+    private string $title;
 
     /**
      * @var string
      * @ORM\Column(type="text")
      */
-    private $description;
+    private string $description;
 
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $sellerName;
+    private string $sellerName;
 
     /**
      * @var string[]
      * @ORM\Column(type="array", nullable=true)
      */
-    private $sellerPhones;
+    private array $sellerPhones;
 
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $link;
+    private string $link;
 
     /**
      * @var \DateTime
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $createdAt;
+    private \DateTime $createdAt;
 
     /**
      * @var \DateTime
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $createdAtInSystem;
+    private \DateTime $createdAtInSystem;
 
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $previewImage;
+    private string $previewImage;
 
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $previewImageLink;
+    private string $previewImageLink;
 
     /**
      * @var string[]
      * @ORM\Column(type="array", nullable=true)
      */
-    private $imagesLinks;
+    private array $imagesLinks;
 
     /**
      * @var string[]
      * @ORM\Column(type="array", nullable=true)
      */
-    private $images;
+    private array $images;
 
     /**
      * @var bool
      * @ORM\Column(type="boolean")
      */
-    private $isActive = false;
+    private bool $isActive = false;
 
     /**
      * @return int

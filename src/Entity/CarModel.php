@@ -19,32 +19,32 @@ class CarModel implements VehicleModelInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-    private $name;
+    private string $name;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-    private $avByLinkName;
+    private string $avByLinkName;
 
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $nameFromLink;
+    private string $nameFromLink;
 
     /**
      * @var CarMark
      * @ORM\ManyToOne(targetEntity="App\Entity\CarMark", inversedBy="models")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $mark;
+    private CarMark $mark;
 
     /**
      * @var mixed

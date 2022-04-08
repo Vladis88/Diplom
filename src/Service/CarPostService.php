@@ -18,7 +18,6 @@ use App\Repository\CarEngineTypeRepository;
 use App\Repository\CarShapeRepository;
 use App\Service\UploaderService\UploaderServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
@@ -108,7 +107,7 @@ class CarPostService
      * @return array
      * @throws \Exception
      */
-    public function save(array $posts)
+    public function save(array $posts): array
     {
         $carPosts = array();
 

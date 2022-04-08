@@ -19,39 +19,39 @@ class CarGeneration implements VehicleGenerationInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-    private $name;
+    private string $name;
 
     /**
      * @var \DateTime
      * @ORM\Column(type="date", nullable=true)
      */
-    private $fromYear;
+    private \DateTime $fromYear;
 
     /**
      * @var \DateTime
      * @ORM\Column(type="date", nullable=true)
      */
-    private $toYear;
+    private \DateTime $toYear;
 
     /**
      * @var CarModel
      * @ORM\ManyToOne(targetEntity="App\Entity\CarModel", inversedBy="generations")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $model;
+    private CarModel $model;
 
     /**
      * @return string
      */
     public function __toString(): string
     {
-        return (string) $this->name;
+        return (string)$this->name;
     }
 
     /**

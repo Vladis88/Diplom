@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\User;
+use App\Entity\AdminUser;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -30,7 +30,7 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
      */
     public function load(ObjectManager $manager)
     {
-        $user = new User();
+        $user = new AdminUser();
         $user
             ->setEmail('admin@mail.com')
             ->addRole('ROLE_SUPER_ADMIN')
