@@ -17,20 +17,20 @@ class City
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-    private $name;
+    private string $name;
 
     /**
      * @var Region
      * @ORM\ManyToOne(targetEntity="App\Entity\Region", inversedBy="cities")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $region;
+    private Region $region;
 
     /**
      * @return int

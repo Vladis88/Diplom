@@ -16,21 +16,21 @@ class SubscriptionServiceItem
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var SubscriptionService
      * @ORM\ManyToOne(targetEntity="App\Entity\User\SubscriptionService")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $service;
+    private SubscriptionService $service;
 
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="App\Entity\User\User", inversedBy="subscriptionServices")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $user;
+    private User $user;
 
     /**
      * @return int

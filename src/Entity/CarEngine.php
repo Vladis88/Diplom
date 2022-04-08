@@ -17,57 +17,57 @@ class CarEngine
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var CarEngineType
      * @ORM\ManyToOne(targetEntity="App\Entity\CarEngineType")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $type;
+    private CarEngineType $type;
 
     /**
-     * @var integer
+     * @var integer|null
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $engineCapacity;
+    private ?int $engineCapacity = null;
 
     /**
      * @var string
      */
-    private $engineCapacityHint = 'куб.см';
+    private string $engineCapacityHint = 'куб.см';
 
     /**
      * @var boolean
      * @ORM\Column(type="boolean")
      */
-    private $hybrid = false;
+    private bool $hybrid = false;
 
     /**
      * @var boolean
      * @ORM\Column(type="boolean")
      */
-    private $gasEquipment = false;
+    private bool $gasEquipment = false;
 
     /**
      * @var CarGasEquipmentType
      * @ORM\ManyToOne(targetEntity="App\Entity\CarGasEquipmentType")
      * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
      */
-    private $gasEquipmentType;
+    private CarGasEquipmentType $gasEquipmentType;
 
     /**
      * For electric car
      *
-     * @var integer
+     * @var integer|null
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $powerReserve;
+    private ?int $powerReserve = null;
 
     /**
      * @var string
      */
-    private $powerReserveHint = 'км';
+    private string $powerReserveHint = 'км';
 
     /**
      * @return int
@@ -106,7 +106,7 @@ class CarEngine
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getEngineCapacity(): ?int
     {
@@ -114,10 +114,10 @@ class CarEngine
     }
 
     /**
-     * @param int $engineCapacity
+     * @param int|null $engineCapacity
      * @return CarEngine
      */
-    public function setEngineCapacity(int $engineCapacity): CarEngine
+    public function setEngineCapacity(?int $engineCapacity): CarEngine
     {
         $this->engineCapacity = $engineCapacity;
         return $this;
@@ -196,7 +196,7 @@ class CarEngine
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getPowerReserve(): ?int
     {
@@ -204,14 +204,16 @@ class CarEngine
     }
 
     /**
-     * @param int $powerReserve
+     * @param int|null $powerReserve
      * @return CarEngine
      */
-    public function setPowerReserve(int $powerReserve): CarEngine
+    public function setPowerReserve(?int $powerReserve): CarEngine
     {
         $this->powerReserve = $powerReserve;
         return $this;
     }
+
+
 
     /**
      * @return string

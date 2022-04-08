@@ -17,13 +17,13 @@ class CarMultimediaOption
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-    private $name;
+    private string $name;
 
     /**
      * @var mixed

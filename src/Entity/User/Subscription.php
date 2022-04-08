@@ -21,41 +21,41 @@ class Subscription implements SubscriptionInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="App\Entity\User\User")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $user;
+    private User $user;
 
     /**
      * @var CarMark
      * @ORM\ManyToOne(targetEntity="App\Entity\CarMark")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $mark;
+    private CarMark $mark;
 
     /**
      * @var CarModel
      * @ORM\ManyToOne(targetEntity="App\Entity\CarModel")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $model;
+    private CarModel $model;
 
     /**
      * @var CarGeneration
      * @ORM\ManyToOne(targetEntity="App\Entity\CarGeneration")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $generation;
+    private CarGeneration $generation;
 
     /**
      * @var boolean
      * @ORM\Column(type="boolean")
      */
-    private $active;
+    private bool $active;
 
     /**
      * @return int

@@ -18,25 +18,25 @@ class CarMark implements VehicleMarkInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-    private $name;
+    private string $name;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-    private $avByLinkName;
+    private string $avByLinkName;
 
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $nameFromLink;
+    private string $nameFromLink;
 
     /**
      * @return string

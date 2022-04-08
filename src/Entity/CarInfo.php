@@ -17,88 +17,88 @@ class CarInfo
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var CarMark
      * @ORM\ManyToOne(targetEntity="App\Entity\CarMark")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $mark;
+    private CarMark $mark;
 
     /**
      * @var CarModel
      * @ORM\ManyToOne(targetEntity="App\Entity\CarModel")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $model;
+    private CarModel $model;
 
     /**
      * @var integer
      * @ORM\Column(type="string")
      */
-    private $year;
+    private int $year;
 
     /**
      * @var CarGeneration
      * @ORM\ManyToOne(targetEntity="App\Entity\CarGeneration")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $generation;
+    private CarGeneration $generation;
 
     /**
      * @var CarBodyType
      * @ORM\ManyToOne(targetEntity="App\Entity\CarBodyType")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $bodyType;
+    private CarBodyType $bodyType;
 
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $modification;
+    private string $modification;
 
     /**
      * @var CarShape
      * @ORM\ManyToOne(targetEntity="App\Entity\CarShape")
      * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
      */
-    private $shape;
+    private CarShape $shape;
 
     /**
      * @var CarPrice
      * @ORM\OneToOne(targetEntity="App\Entity\CarPrice")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $price;
+    private CarPrice $price;
 
     /**
      * @var integer
      * @ORM\Column(type="integer")
      */
-    private $mileage;
+    private int $mileage;
 
     /**
      * @var CarMileageMeasure
      * @ORM\ManyToOne(targetEntity="App\Entity\CarMileageMeasure")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $mileageMeasure;
+    private CarMileageMeasure $mileageMeasure;
 
     /**
      * @var CarEngine
      * @ORM\OneToOne(targetEntity="App\Entity\CarEngine")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $engine;
+    private CarEngine $engine;
 
     /**
      * @var CarTransmission
      * @ORM\ManyToOne(targetEntity="App\Entity\CarTransmission")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $transmission;
+    private CarTransmission $transmission;
 
     /**
      * Тип привода
@@ -107,47 +107,47 @@ class CarInfo
      * @ORM\ManyToOne(targetEntity="App\Entity\CarDriveType")
      * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
      */
-    private $driveType;
+    private CarDriveType $driveType;
 
     /**
      * @var CarColor
      * @ORM\ManyToOne(targetEntity="App\Entity\CarColor")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $color;
+    private CarColor $color;
 
     /**
      * @var CarTrimMaterial
      * @ORM\ManyToOne(targetEntity="App\Entity\CarTrimMaterial")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $interiorMaterial;
+    private CarTrimMaterial $interiorMaterial;
 
     /**
      * @var CarInteriorColor
      * @ORM\ManyToOne(targetEntity="App\Entity\CarInteriorColor")
      * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
      */
-    private $interiorColor;
+    private CarInteriorColor $interiorColor;
 
     /**
      * @var CarExchange
      * @ORM\ManyToOne(targetEntity="App\Entity\CarExchange")
      * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
      */
-    private $exchange;
+    private CarExchange $exchange;
 
     /**
      * @var string
      * @ORM\Column(type="text", nullable=true)
      */
-    private $exchangeNote;
+    private string $exchangeNote;
 
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $vinNumber;
+    private string $vinNumber;
 
     /**
      * @var mixed
@@ -209,21 +209,21 @@ class CarInfo
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $videoLink;
+    private string $videoLink;
 
     /**
      * @var Region
      * @ORM\ManyToOne(targetEntity="App\Entity\Region")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $region;
+    private Region $region;
 
     /**
      * @var City
      * @ORM\ManyToOne(targetEntity="App\Entity\City")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $city;
+    private City $city;
 
     /**
      * @return string
@@ -354,7 +354,7 @@ class CarInfo
     }
 
     /**
-     * @param CarShape $shape
+     * @param \App\Entity\CarShape|null $shape
      */
     public function setShape(?CarShape $shape): void
     {
@@ -466,7 +466,7 @@ class CarInfo
     }
 
     /**
-     * @param CarColor $color
+     * @param \App\Entity\CarColor|null $color
      */
     public function setColor(?CarColor $color): void
     {

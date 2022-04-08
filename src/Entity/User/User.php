@@ -18,26 +18,26 @@ class User implements UserInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-    private $username;
+    private string $username;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-    private $email;
+    private string $email;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
      */
-    private $password;
+    private string $password;
 
     /**
      * @var mixed
@@ -129,7 +129,7 @@ class User implements UserInterface
      * @param mixed $subscriptionServices
      * @return User
      */
-    public function setSubscriptionServices($subscriptionServices)
+    public function setSubscriptionServices($subscriptionServices): User
     {
         $this->subscriptionServices = $subscriptionServices;
         return $this;
@@ -147,9 +147,9 @@ class User implements UserInterface
      * and populated in any number of different ways when the user object
      * is created.
      *
-     * @return (Role|string)[] The user roles
+     * @return array (Role|string)[] The user roles
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         return ['ROLE_USER'];
     }
@@ -162,7 +162,7 @@ class User implements UserInterface
      *
      * @return string|null The encoded password if any
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -175,7 +175,7 @@ class User implements UserInterface
      *
      * @return string|null The salt
      */
-    public function getSalt()
+    public function getSalt(): ?string
     {
         // TODO: Implement getSalt() method.
     }
