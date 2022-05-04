@@ -290,4 +290,5 @@ class AdminUser implements UserInterface
     {
         return $this->getFirstName();
     }
+
 }
