@@ -28,7 +28,7 @@ class SubscriptionService
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private string $title;
+    private ?string $title = null;
 
     /**
      * @return int
@@ -75,7 +75,7 @@ class SubscriptionService
     }
 
     /**
-     * @param string $title
+     * @param string|null $title
      * @return SubscriptionService
      */
     public function setTitle(?string $title): SubscriptionService
@@ -83,4 +83,5 @@ class SubscriptionService
         $this->title = $title;
         return $this;
     }
+
 }

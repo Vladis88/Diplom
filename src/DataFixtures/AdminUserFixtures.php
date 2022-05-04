@@ -8,7 +8,7 @@ use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserFixtures extends Fixture implements FixtureGroupInterface
+class AdminUserFixtures extends Fixture implements FixtureGroupInterface
 {
     /**
      * @var UserPasswordEncoderInterface
@@ -16,7 +16,7 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
     private UserPasswordEncoderInterface $passwordEncoder;
 
     /**
-     * UserFixtures constructor.
+     * AdminUserFixtures constructor.
      *
      * @param UserPasswordEncoderInterface $passwordEncoder
      */

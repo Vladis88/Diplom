@@ -286,8 +286,9 @@ class AdminUser implements UserInterface
         return \sprintf('%s%s', 'downloads/', \end($pathItems));
     }
 
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return $this->getFirstName();
     }
+
 }

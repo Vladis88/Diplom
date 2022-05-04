@@ -31,3 +31,8 @@ bin/console d:s:u --force
 ```bash
 bin/console lexik:jwt:generate-keypair
 ```
+
+#### Load all fixture fro database
+```bash
+bin/console doctrine:fixtures:load
+```
