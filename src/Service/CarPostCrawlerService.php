@@ -11,6 +11,7 @@ use Clue\React\Buzz\Browser;
 use Doctrine\ORM\EntityManagerInterface;
 use Goutte\Client;
 use React\EventLoop\Factory;
+use React\MySQL\Exception;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -99,7 +100,8 @@ class CarPostCrawlerService
     public function extract(string $body, string $url): array
     {
         $crawler = new Crawler($body);
-
+        dump($crawler);
+        exit();
         try {
             $title = $crawler->filter('.card-title')->text();
         } catch (\Exception $exception) {
@@ -109,11 +111,14 @@ class CarPostCrawlerService
         $price = $crawler->filter('.card-details .card-price-main-primary')->text();
         try {
             $previewImage = $crawler->filter('.card-gallery .fotorama a')->first()->attr('href');
-            $images = $crawler->filter('.card-gallery .fotorama a')->each(function (Crawler $node, $i) {
-                if ($i > 0) {
-                    return $node->attr('href');
+            $images = $crawler->filter('.card-gallery .fotorama a')->each(
+                function (Crawler $node, $i) {
+                    if ($i > 0) {
+                        return $node->attr('href');
+                    }
+                    throw new Exception('Not found image!');
                 }
-            });
+            );
             array_splice($images, 0, 1);
 
         } catch (\Exception $exception) {
@@ -129,11 +134,14 @@ class CarPostCrawlerService
 
         $sellerName = $crawler->filter('.card-details h3.card-contacts-name')->text();
 
-        $phonesNumbers = $crawler->filter('a.modal-choice-link')->each(function (Crawler $node, $i) {
-            if ($node->attr('href') !== '#') {
-                return $node->attr('href');
+        $phonesNumbers = $crawler->filter('a.modal-choice-link')->each(
+            function (Crawler $node, $i) {
+                if ($node->attr('href') !== '#') {
+                    return $node->attr('href');
+                }
+                throw new Exception('Not found phones numbers!');
             }
-        });
+        );
 
         // Create preview image name $this->imagesQueue
         $currentDate = new \DateTime('now');
@@ -314,12 +322,12 @@ class CarPostCrawlerService
 
     public function fillCarLinks(): void
     {
-        $carsPageLink = 'https://cars.av.by/search?sort=date&order=desc&year_from=&year_to=&currency=USD&price_from=&price_to=&body_id=&engine_volume_min=&engine_volume_max=&driving_id=&mileage_min=&mileage_max=&region_id=&interior_material=&interior_color=&exchange=&search_time=1';
+        $carsPageLink = 'https://cars.av.by/';
 
         $crawler = $this->client->request('GET', $carsPageLink);
 
-        $newLinks = $crawler->filter('.listing-item-title h4 > a')->each(function (Crawler $node) {
-            return $node->attr('href');
+        $newLinks = $crawler->filter('.listing-top__summary h3 > a')->each(function (Crawler $node) {
+            return 'https://cars.av.by' . $node->attr('href');
         });
 
         $oldLinks = $this->carPostService->getLastPostsLinks();
