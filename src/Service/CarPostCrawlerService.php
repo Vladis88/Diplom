@@ -10,7 +10,7 @@ use App\Repository\CarModelRepository;
 use Clue\React\Buzz\Browser;
 use Doctrine\ORM\EntityManagerInterface;
 use Goutte\Client;
-use React\EventLoop\Factory;
+use React\EventLoop\Loop;
 use React\MySQL\Exception;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -81,7 +81,7 @@ class CarPostCrawlerService
         CarModelRepository     $carModelRepository
     )
     {
-        $loop = Factory::create();
+        $loop = Loop::get();
         $this->browser = new Browser($loop);
 
         $this->carPostService = $carPostService;
@@ -92,47 +92,42 @@ class CarPostCrawlerService
     }
 
     /**
-     * @param string $body
      * @param string $url
      * @return array
      * @throws \Exception
      */
-    public function extract(string $body, string $url): array
+    public function extract(string $url): array
     {
-        $crawler = new Crawler($body);
-        dump($crawler);
-        exit();
-        try {
-            $title = $crawler->filter('.card-title')->text();
-        } catch (\Exception $exception) {
-        }
+        $crawler = $this->client->request('GET', $url);
 
-        $createdAt = $crawler->filter('.card-about-item-dates > dl dd')->text();
-        $price = $crawler->filter('.card-details .card-price-main-primary')->text();
+        $title = $crawler->filter('.card__header h1')->text();
+
+        $price = $crawler->filter('.card__summary .card__price-primary')->text();
         try {
-            $previewImage = $crawler->filter('.card-gallery .fotorama a')->first()->attr('href');
-            $images = $crawler->filter('.card-gallery .fotorama a')->each(
-                function (Crawler $node, $i) {
-                    if ($i > 0) {
-                        return $node->attr('href');
-                    }
-                    throw new Exception('Not found image!');
+            $previewImage = $crawler->filter('.gallery .gallery__stage .gallery__stage-shaft .gallery__frame img')->eq(0)->attr('data-src');
+
+            $images = $crawler->filter('.gallery .gallery__stage .gallery__stage-shaft .gallery__frame img')->each(
+                function (Crawler $node) {
+                    return $node->attr('data-src');
                 }
             );
             array_splice($images, 0, 1);
-
+            array_unshift($images, $previewImage);
         } catch (\Exception $exception) {
             $previewImage = null;
             $images = null;
         }
 
         try {
-            $description = $crawler->filter('.card-description')->text();
+            $description = $crawler->filter('.card__comment-text p')->text();
         } catch (\Exception $exception) {
             $description = null;
         }
 
-        $sellerName = $crawler->filter('.card-details h3.card-contacts-name')->text();
+        $sellerName = $crawler->filter('.phones__card p.phones__owner')->text();
+
+        dump($sellerName);
+        exit();
 
         $phonesNumbers = $crawler->filter('a.modal-choice-link')->each(
             function (Crawler $node, $i) {
