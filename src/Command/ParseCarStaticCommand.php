@@ -66,7 +66,7 @@ class ParseCarStaticCommand extends Command
 
         $crawler = $this->client->request('GET', $abByLink);
 
-        $markList = $crawler->filter('ul.brandslist li a')->each(function (Crawler $node) {
+        $markList = $crawler->filter('ul.catalog__items li a')->each(function (Crawler $node) {
             return array(
                 'link' => $node->attr('href'),
                 'name' => trim($node->filter('span')->text())
@@ -85,11 +85,11 @@ class ParseCarStaticCommand extends Command
 
             $modelCrawler = $this->client->request('GET', $link);
 
-            $modelList = $modelCrawler->filter('ul.brandslist li a')->each(function (Crawler $node) {
-               return array(
-                   'link' => $node->attr('href'),
-                   'name' => trim($node->filter('span')->text())
-               );
+            $modelList = $modelCrawler->filter('ul.catalog__items li a')->each(function (Crawler $node) {
+                return array(
+                    'link' => 'https://cars.av.by' . $node->attr('href'),
+                    'name' => trim($node->filter('span')->text())
+                );
             });
 
             foreach ($modelList as $model) {
@@ -100,23 +100,21 @@ class ParseCarStaticCommand extends Command
 
                 $generationCrawler = $this->client->request('GET', $model['link']);
 
-                $generationList = $generationCrawler->filter('.js-generation-container select option')->each(function (Crawler $node) {
+                $generationList = $generationCrawler->filter('.dropdown__card')->each(function (Crawler $node) {
                     if (trim($node->text()) !== 'Поколение') {
                         return trim($node->text());
                     }
+                    return array(
+                        'error' => 'Not found generationList!'
+                    );
                 });
-
-//                if ($count === 1) {
-//                    dump($carModel);
-//                    dump($generationList);exit();
-//                }
+                dump($generationList);
 
                 foreach ($generationList as $generation) {
                     if ($generation !== null) {
                         $carGeneration = new CarGeneration();
                         $carGeneration->setName($generation);
                         $carGeneration->setModel($carModel);
-
                         $this->entityManager->persist($carGeneration);
                     }
                 }
@@ -127,14 +125,19 @@ class ParseCarStaticCommand extends Command
             $this->entityManager->persist($carMark);
 
             $count++;
-        }
 
+//            dump($count);
+//
+//            if ($count === 3) {
+//                break;
+//            }
+        }
         $this->entityManager->flush();
 
         $executionEndTime = microtime(true);
 
         // Result time of executing script
         $seconds = $executionEndTime - $executionStartTime;
-        echo "This script took $seconds to execute.";
+        echo "This script took $seconds to execute.\n";
     }
 }
