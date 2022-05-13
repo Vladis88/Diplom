@@ -2,6 +2,9 @@
     "begateway/begateway-api-php": {
         "version": "4.2.1"
     },
+    "behat/mink": {
+        "version": "v1.10.0"
+    },
     "borsaco/telegram-bot-api-bundle": {
         "version": "1.0.3"
     },
