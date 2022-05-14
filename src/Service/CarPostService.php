@@ -192,9 +192,9 @@ class CarPostService
 
     /**
      * @param string $mileageMeasure
-     * @return CarMileageMeasure
+     * @return object
      */
-    private function getMileageMeasure(string $mileageMeasure): CarMileageMeasure
+    private function getMileageMeasure(string $mileageMeasure): object
     {
         return $this->entityManager->getRepository(CarMileageMeasure::class)->findOneBy([
             'name' => 'км'

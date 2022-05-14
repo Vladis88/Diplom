@@ -10,7 +10,7 @@ use App\Repository\CarModelRepository;
 use Clue\React\Buzz\Browser;
 use Doctrine\ORM\EntityManagerInterface;
 use Goutte\Client;
-use React\EventLoop\Factory;
+use React\EventLoop\Loop;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -80,7 +80,7 @@ class CarPostCrawlerService
         CarModelRepository     $carModelRepository
     )
     {
-        $loop = Factory::create();
+        $loop = Loop::get();
         $this->browser = new Browser($loop);
 
         $this->carPostService = $carPostService;
@@ -91,79 +91,51 @@ class CarPostCrawlerService
     }
 
     /**
-     * @param string $body
      * @param string $url
      * @return array
      * @throws \Exception
      */
-    public function extract(string $body, string $url): array
+    public function extract(string $url): array
     {
-        $crawler = new Crawler($body);
+        $crawler = $this->client->request('GET', $url);
 
-        try {
-            $title = $crawler->filter('.card-title')->text();
-        } catch (\Exception $exception) {
-        }
+        $title = $crawler->filter('.card__header h1')->text();
 
-        $createdAt = $crawler->filter('.card-about-item-dates > dl dd')->text();
-        $price = $crawler->filter('.card-details .card-price-main-primary')->text();
+        $price = $crawler->filter('.card__summary .card__price-primary')->text();
         try {
-            $previewImage = $crawler->filter('.card-gallery .fotorama a')->first()->attr('href');
-            $images = $crawler->filter('.card-gallery .fotorama a')->each(function (Crawler $node, $i) {
-                if ($i > 0) {
-                    return $node->attr('href');
+            $previewImage = $crawler->filter('.gallery .gallery__stage .gallery__stage-shaft .gallery__frame img')->eq(0)->attr('data-src');
+
+            $images = $crawler->filter('.gallery .gallery__stage .gallery__stage-shaft .gallery__frame img')->each(
+                function (Crawler $node) {
+                    return $node->attr('data-src');
                 }
-            });
+            );
             array_splice($images, 0, 1);
-
+            array_unshift($images, $previewImage);
         } catch (\Exception $exception) {
             $previewImage = null;
             $images = null;
         }
 
         try {
-            $description = $crawler->filter('.card-description')->text();
+            $description = $crawler->filter('.card__comment-text p')->text();
         } catch (\Exception $exception) {
             $description = null;
         }
 
-        $sellerName = $crawler->filter('.card-details h3.card-contacts-name')->text();
+        //TODO нужно доразбираться как зайти в форму через нажатие кнопки для имени продовца и номера телефона
+//        $sellerName = $crawler->selectButton('span.button__text')->form();
+        $sellerName = 'SellerNameTest';
 
-        $phonesNumbers = $crawler->filter('a.modal-choice-link')->each(function (Crawler $node, $i) {
-            if ($node->attr('href') !== '#') {
-                return $node->attr('href');
-            }
-        });
-
-        // Create preview image name $this->imagesQueue
-        $currentDate = new \DateTime('now');
-        $previewImageName = "avto-" . $currentDate->format('Y-m-d_H:i:s.u');
-
-        // Save binary image in
-//        $this->browser->get($previewImage)->then(
-//            function (ResponseInterface $response) use ($previewImageName) {
-//                // store image
-//                var_dump('HELLO');
-//                $this->imagesQueue[$previewImageName] = (string) $response->getBody();
-//            },
-//            function () {
-//                var_dump('REJECT');
-//            },
-//            function () {
-//                var_dump('PROGRESS');
+//        $phonesNumbers = $crawler->filter('a.modal-choice-link')->each(
+//            function (Crawler $node, $i) {
+//                if ($node->attr('href') !== '#') {
+//                    return $node->attr('href');
+//                }
+//                throw new Exception('Not found phones numbers!');
 //            }
 //        );
-
-        // This method save binary images in $this->galleryForEveryCar
-//        foreach ($images as $image) {
-//            $this->browser->get($image)->then(
-//                function (ResponseInterface $response) use ($previewImageName) {
-//                    $currentDate = new \DateTime('now');
-//                    $carGalleryImage = "avto-" . $currentDate->format('Y-m-d_H:i:s.u');
-//                    $this->galleryForEveryCar[$previewImageName][$carGalleryImage] = 'HELLO';
-//                }
-//            );
-//        }
+        $phonesNumbers = ['phonesNumbersTest'];
 
         // Remove nullable values from $phoneNumbers
         foreach ($phonesNumbers as $key => $pn) {
@@ -198,18 +170,11 @@ class CarPostCrawlerService
         $model = $this->extractModel($url, $mark);
 
         $generation = $this->extractGeneration($title, $model);
-
-        $carInfoArray = $crawler->filter('.card-info ul li')->each(function (Crawler $node) {
-            $result = array();
-            foreach (CarPostOptions::$carInfoData as $key => $carInfoDatum) {
-                if (trim($node->filter('dl dt')->text()) === $key) {
-                    $result[$carInfoDatum] = trim($node->filter('dl dd')->text());
-                }
-            }
-
-            return $result;
+        dump($generation);
+        $carInfoArray = $crawler->filter('.card__about .card__params .card__description')->each(function (Crawler $node) {
+            return $node->text();
         });
-
+        dump($carInfoArray); exit();
         $resultCarInfo = array();
 
         foreach ($carInfoArray as $item) {
@@ -271,55 +236,47 @@ class CarPostCrawlerService
         $model = $this->entityManager->getRepository(CarModel::class)->find($carModel);
         /** @var CarMark $mark */
         $mark = $model->getMark();
-//        dump($title);
-        $title = substr($title, 0, -6);
-
-        $title = str_replace($mark->getName(), '', $title);
-        $title = str_replace($model->getName(), '', $title);
-        $title = trim($title);
-
-//        dump($title);
 
         $titleItems = explode(' ', $title);
         $resultItems = array();
 
+        array_shift($titleItems);
+        array_pop($titleItems);
         foreach ($titleItems as $item) {
             if ($item === $model->getName() || $item === $mark->getName()) {
                 continue;
             }
-
             $resultItems[] = $item;
         }
 
         $variants = array();
-
         for ($i = count($resultItems); $i > 0; $i--) {
             $variants[] = implode(' ', array_slice($resultItems, 0, $i));
         }
-
+        dump($variants);
         foreach ($variants as $variant) {
+            $variant = str_replace(array(',', ', ', ' ,'), '', $variant);
+
             $needle = $this->entityManager->getRepository(CarGeneration::class)->findOneBy([
                 'model' => $model,
                 'name' => $variant
             ]);
-
             if ($needle) {
+                exit();
                 return $needle->getId();
-//                dump($needle);exit();
             }
         }
-
         return null;
     }
 
     public function fillCarLinks(): void
     {
-        $carsPageLink = 'https://cars.av.by/search?sort=date&order=desc&year_from=&year_to=&currency=USD&price_from=&price_to=&body_id=&engine_volume_min=&engine_volume_max=&driving_id=&mileage_min=&mileage_max=&region_id=&interior_material=&interior_color=&exchange=&search_time=1';
+        $carsPageLink = 'https://cars.av.by/';
 
         $crawler = $this->client->request('GET', $carsPageLink);
 
-        $newLinks = $crawler->filter('.listing-item-title h4 > a')->each(function (Crawler $node) {
-            return $node->attr('href');
+        $newLinks = $crawler->filter('.listing-top__summary h3 > a')->each(function (Crawler $node) {
+            return 'https://cars.av.by' . $node->attr('href');
         });
 
         $oldLinks = $this->carPostService->getLastPostsLinks();

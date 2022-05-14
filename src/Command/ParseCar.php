@@ -6,9 +6,6 @@ use App\Entity\CarPost;
 use App\Service\CarPostCrawlerService;
 use App\Service\CarPostService;
 use App\Service\SubscriptionResolverService;
-use Clue\React\Buzz\Browser;
-use Psr\Http\Message\ResponseInterface;
-use React\EventLoop\Factory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -91,24 +88,13 @@ class ParseCar extends Command
 
         $this->carPostCrawlerService->fillCarLinks();
 
-        $loop = Factory::create();
-        $browser = new Browser($loop);
-
-        var_dump($this->carPostCrawlerService->getCurrentCarLinks());
-
         foreach ($this->carPostCrawlerService->getCurrentCarLinks() as $url) {
-            $browser->get($url)
-                ->then(function (ResponseInterface $response) use ($url) {
-                    $array = $this
-                        ->carPostCrawlerService
-                        ->extract((string)$response->getBody(), $url);
-                    $array['link'] = $url;
-                    $this->resultCars[] = $array;
-                });
+            dump($url);
+            $array = $this->carPostCrawlerService->extract($url);
+            $array['link'] = $url;
+            $this->resultCars[] = $array;
         }
-
-        $loop->run();
-
+        dump($this->resultCars); exit();
         $posts = $this->carPostService->save($this->resultCars);
         $this->carPostService->saveImages($posts);
 

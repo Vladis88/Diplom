@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class FormMarModelNamesCommand
  * @package App\Command
  */
-class FormMarModelNamesCommand extends Command
+class FormCarModelNamesCommand extends Command
 {
     protected static $defaultName = 'app:mark-model-form';
 

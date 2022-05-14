@@ -61,9 +61,7 @@ class FormGenerationsCommand extends Command
 
             $resultString = implode(",", $array);
 
-            dump($resultString);
-
-            $yearsArray = explode('—', $lastElement);
+            $yearsArray = explode('…', $lastElement);
 
             $fromYear = $yearsArray[0];
             $toYear = $yearsArray[1];
@@ -72,8 +70,8 @@ class FormGenerationsCommand extends Command
             $toYearDate = \DateTime::createFromFormat('Y', $toYear);
 
             $generation->setName($resultString);
-            $generation->setFromYear($fromYear !== 'н.в.' ? $fromYearDate : new \DateTime('now'));
-            $generation->setToYear($toYear !== 'н.в.' ? $toYearDate : new \DateTime('now'));
+            $generation->setFromYear($fromYear !== '' ? $fromYearDate : new \DateTime('now'));
+            $generation->setToYear($toYear !== '' ? $toYearDate : new \DateTime('now'));
         }
 
         $this->entityManager->flush();
