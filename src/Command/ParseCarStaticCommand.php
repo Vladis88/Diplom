@@ -5,6 +5,8 @@ namespace App\Command;
 use App\Entity\CarGeneration;
 use App\Entity\CarMark;
 use App\Entity\CarModel;
+use Behat\Mink\Driver\DriverInterface;
+use Behat\Mink\Session;
 use Doctrine\ORM\EntityManagerInterface;
 use Goutte\Client;
 use Symfony\Component\Console\Command\Command;
@@ -18,6 +20,7 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class ParseCarStaticCommand extends Command
 {
+
     /**
      * @var Client
      */
@@ -72,7 +75,8 @@ class ParseCarStaticCommand extends Command
                 'name' => trim($node->filter('span')->text())
             );
         });
-
+        dump($markList);
+        exit();
         $count = 0;
 
         foreach ($markList as $mark) {
@@ -108,7 +112,6 @@ class ParseCarStaticCommand extends Command
                         'error' => 'Not found generationList!'
                     );
                 });
-                dump($generationList);
 
                 foreach ($generationList as $generation) {
                     if ($generation !== null) {
@@ -126,7 +129,7 @@ class ParseCarStaticCommand extends Command
 
             $count++;
 
-//            dump($count);
+            dump($count);
 //
 //            if ($count === 3) {
 //                break;
