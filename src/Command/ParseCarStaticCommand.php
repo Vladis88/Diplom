@@ -125,9 +125,9 @@ class ParseCarStaticCommand extends Command
 
             dump($count);
 
-            if ($count === 5) {
-                break;
-            }
+//            if ($count === 5) {
+//                break;
+//            }
         }
         $this->entityManager->flush();
 
