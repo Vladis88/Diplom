@@ -65,44 +65,38 @@ class ParseCarStaticCommand extends Command
         // fix start time for parsing
         $executionStartTime = microtime(true);
 
-        $abByLink = 'https://av.by/';
+        $abApiByLink = 'https://api.av.by/offer-types/cars/landings';
 
-        $crawler = $this->client->request('GET', $abByLink);
 
-        $markList = $crawler->filter('ul.catalog__items li a')->each(function (Crawler $node) {
-            return array(
-                'link' => $node->attr('href'),
-                'name' => trim($node->filter('span')->text())
-            );
-        });
-        dump($markList);
-        exit();
+        $markJson = file_get_contents($abApiByLink);
+        $markJsonArr = json_decode($markJson, true);
+
+
+        $markList = $markJsonArr['seo']['links'];
+
         $count = 0;
 
         foreach ($markList as $mark) {
-            $link = $mark['link'];
+            $arrayPartLink = explode('/', $mark['url']);
+            $linkMark = $abApiByLink . '/' . $arrayPartLink[count($arrayPartLink) - 1];
 
             // save to database
             $carMark = new CarMark();
-            $carMark->setAvByLinkName($link);
-            $carMark->setName($mark['name']);
+            $carMark->setAvByLinkName($mark['url']);
+            $carMark->setName($mark['label']);
 
-            $modelCrawler = $this->client->request('GET', $link);
+            $modelJson = file_get_contents($linkMark);
+            $modelJsonArr = json_decode($modelJson, true);
 
-            $modelList = $modelCrawler->filter('ul.catalog__items li a')->each(function (Crawler $node) {
-                return array(
-                    'link' => 'https://cars.av.by' . $node->attr('href'),
-                    'name' => trim($node->filter('span')->text())
-                );
-            });
+            $modelList = $modelJsonArr['seo']['links'];
 
             foreach ($modelList as $model) {
                 $carModel = new CarModel();
-                $carModel->setName($model['name']);
-                $carModel->setAvByLinkName($model['link']);
+                $carModel->setName($model['label']);
+                $carModel->setAvByLinkName($model['url']);
                 $carModel->setMark($carMark);
 
-                $generationCrawler = $this->client->request('GET', $model['link']);
+                $generationCrawler = $this->client->request('GET', $model['url']);
 
                 $generationList = $generationCrawler->filter('.dropdown__card')->each(function (Crawler $node) {
                     if (trim($node->text()) !== 'Поколение') {
@@ -130,10 +124,10 @@ class ParseCarStaticCommand extends Command
             $count++;
 
             dump($count);
-//
-//            if ($count === 3) {
-//                break;
-//            }
+
+            if ($count === 5) {
+                break;
+            }
         }
         $this->entityManager->flush();
 
